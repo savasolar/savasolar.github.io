@@ -17,6 +17,7 @@ h1 {
     margin: 1em;
 }
 </style>
+<title>GenerativeMusic</title>
 </head>
 <body onload="init();">
 <h1>Generative Art Based on Conway's Game of Life</h1>
@@ -25,8 +26,8 @@ h1 {
 <canvas id="screen" width="600px" height="600px" style="background-color:white;"></canvas>
 <br/><br/>
 <div>
-    <label for="stepTime">Tempo (ms)</label>
-    <input id="stepTime" type="text" value="300" />
+    <label for="stepTime">Tempo (in <i>milliseconds</i>; the lower the number, the faster the music):</label>
+    <input id="stepTime" type="text" style="width:40px;" value="300" />
     <input id="step" type="button" value="Start"/>
     <input type="button" value="Reset" onclick="window.location.reload()" />
 	<br/>
