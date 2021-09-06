@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dealmaker</title>
+
+<style>
+body
+{
+  font-family:arial;
+  font-size:18pt;
+  background-color:#662000;
+}
+.div1
+{
+	position:absolute;
+	top:50px;
+	left:50px;
+	background-color:#d9bd00;
+	padding:50px;
+	width:1150px;
+	height:60px;
+	color:black;
+}
+.div2
+{
+	position:absolute;
+	top:276px;
+	left:50px;
+	background-color:#1a81ae;
+	padding:50px;
+	width:266px;
+	height:250px;
+	color:white;
+}
+.div3
+{
+	position:absolute;
+	top:276px;
+	left:492px;
+	background-color:#d9681d;
+	padding:50px;
+	width:266px;
+	height:250px;
+	color:white;
+}
+.div4
+{
+	position:absolute;
+	top:276px;
+	left:934px;
+	background-color:#a2b416;
+	padding:50px;
+	width:266px;
+	height:250px;
+	color:white;
+}
+input
+{
+	height:50px;
+	font-size:18pt;
+	font-family:arial;
+	background-color:transparent;
+	border:0px;
+	cursor:pointer;
+}
+.val
+{
+	font-size:55pt;
+	height:100px;
+	width:210px;
+	background-color:transparent;
+	border:0px;
+	color:white;
+}
+.mash
+{
+	position:absolute;
+	top:70px;
+	left:1165px;
+	width:120px;
+	height:120px;
+	font-size:18pt;
+	cursor:pointer;
+}
+</style>
+
+<script type="text/javascript">
+function divScale()
+{
+	document.getElementById("d1").style.left = (document.body.scrollWidth / 2) - (1250 / 2) + "px";
+	document.getElementById("mashButton").style.left = (document.body.scrollWidth / 2) + (1250 / 2) - 140 + "px";
+
+	document.getElementById("d2").style.left = (document.body.scrollWidth / 2) - (1250 / 2) + "px";
+	document.getElementById("d3").style.left = (document.body.scrollWidth / 2) - (366 / 2) + "px";
+	document.getElementById("d4").style.left = (document.body.scrollWidth / 2) - (1250 / 2) + 1250 - 366 + "px";
+}
+
+var N = 0;
+var R = 0;
+var P = 179;
+var K = 0;
+var X = 0;
+var Y = 0;
+
+function getValues()
+{
+	N = document.getElementById("N").value;
+	R = document.getElementById("R").value / 100;
+	P = document.getElementById("P").value;
+	K = document.getElementById("K").value;
+	X = document.getElementById("X").value;
+	Y = document.getElementById("Y").value;
+}
+
+function setValues()
+{
+	document.getElementById("N").value = N;
+	document.getElementById("R").value = R * 100;
+	document.getElementById("P").value = P;
+	document.getElementById("K").value = K;
+	document.getElementById("X").value = X;
+	document.getElementById("Y").value = Y;
+}
+
+function mash()
+{
+	getValues();
+	
+	Y = +N * +R * +P;
+	X = +K - +Y;
+
+	setValues();
+}
+
+function updateFromK()
+{
+	getValues();
+
+	X = +K - +Y;
+		
+	setValues();
+}
+
+function updateFromX()
+{
+	getValues();
+	
+	Y = +K - +X;
+	N = +Y / +R / +P;
+	
+	setValues();
+}
+
+function updateFromY()
+{
+	getValues();
+	
+	N = +Y / +R / +P;
+	X = +K - +Y;
+	
+	setValues();
+}
+
+document.addEventListener("keydown", event => {
+  if (event.isComposing || event.keyCode !== 13) {
+    return;
+  }
+  mash();
+  document.activeElement.blur();
+});
+</script>
+
+</head>
+<body onload="divScale()" onresize="divScale()">
+
+<div class="div1" id="d1">
+# of sales of one product: <input type="text" id="N" style="width:70px" value="500"/>&nbsp;&nbsp;&nbsp;&nbsp;
+Royalty: <input type="text" id="R" style="width:50px; text-align:right;" value="20"/>%&nbsp;&nbsp;&nbsp;&nbsp;
+Make Believe price: $<input type="text" id="P" style="width:50px" value="55"/>
+</div>
+
+<button id="mashButton" class="mash" onclick="mash()">Mash</button>
+
+<div class="div2" id="d2">
+Price of source code, outright sale:
+<br/>
+<br/>
+<span style="font-size:55pt;">$</span><input type="text" id="K" class="val" value="8000" oninput="updateFromK()"/>
+</div>
+
+<div class="div3" id="d3">
+Price of source code, royalty-based:
+<br/>
+<br/>
+<span style="font-size:55pt;">$</span><input type="text" id="X" class="val" value="0" oninput="updateFromX()"/>
+</div>
+
+<div class="div4" id="d4">
+Amount I'd get from royalties:
+<br/>
+<br/>
+<span style="font-size:55pt;">$</span><input type="text" id="Y" class="val" value="0" oninput="updateFromY()"/>
+</div>
+</body>
+</html>
