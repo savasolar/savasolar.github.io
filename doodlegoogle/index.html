@@ -1,223 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Doodle Google v1</title>
+<title>Doodle Google</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<style>
-body
-{
-	margin:0px;
-	padding:0px;
-}
-img
-{
-	image-rendering: -webkit-optimize-contrast;
-	image-rendering: crisp-edges;
-}
-#main
-{
-	position:absolute;
-	top:0px;
-	left:0px;
-	width:100%;
-	height:100%;
-	background-color:white;
-}
-.logo
-{
-	width:272px;
-	height:109px;
-	margin-left:auto;
-	margin-right:auto;
-	position:absolute;
-	top:250px;
-	left:0px;
-	right:0px;
-}
-.searchControls
-{
-	width:100%;
-	height:200px;
-	position:absolute;
-	top:359px;
-	text-align:center;
-	padding-top:18px;
-	background-color:white;
-}
-.searchBar
-{
-	width:532px;
-	height:50px;
-	padding-left:40px;
-	padding-right:12px;
-	padding-top:0px;
-	padding-bottom:0px;
-	border:none;
-	margin:0px;
-	background-image:url('images/object-searchbar-rsz.jpg');
-	font-size:12pt;
-}
-.searchBar:focus
-{
-	outline:none;
-}
-/* clears the 'X' from Internet Explorer */
-input[type=text]::-ms-clear {  display: none; width : 0; height: 0; }
-input[type=text]::-ms-reveal {  display: none; width : 0; height: 0; }
-.searchButton
-{
-	width:127px;
-	height:42px;
-	border:none;
-	margin-top:22px;
-	margin-bottom:0px;
-	margin-left:0px;
-	margin-right:5px;
-	background-image:url('images/button-search-rsz.jpg');
-	cursor:pointer;
-}
-.luckyButton
-{
-	width:127px;
-	height:42px;
-	border:none;
-	margin-top:22px;
-	margin-bottom:0px;
-	margin-left:5px;
-	margin-right:0px;
-	background-image:url('images/button-lucky-rsz.jpg');
-	cursor:pointer;
-}
-.text-about
-{
-	height:22px;
-	position:absolute;
-	top:20px;
-	left:20px;
-}
-.text-store
-{
-	height:22px;
-	position:absolute;
-	top:20px;
-	left:90px;
-}
-.button-signin
-{
-	height:42px;
-	position:absolute;
-	top:8px;
-	right:14px;
-}
-.object-menu
-{
-	width:18px;
-	height:18px;
-	position:absolute;
-	top:21px;
-	right:137px;
-	cursor:pointer;
-}
-.text-images
-{
-	height:22px;
-	position:absolute;
-	top:20px;
-	right:180px;
-}
-.text-gmail
-{
-	height:22px;
-	position:absolute;
-	top:20px;
-	right:246px;
-}
-#iconMenu
-{
-	width:316px;
-	height:436px;
-	position:absolute;
-	top:66px;
-	right:15px;
-/*	border:2px solid black; */
-	border:none;
-	display:none;
-}
-#iconMenuBorder
-{
-	position:absolute;
-	top:60px;
-	right:10px;
-	pointer-events:none;
-	display:none;
-}
-.copyright
-{
-	position:absolute;
-	bottom:20px;
-	left:20px;
-	height:28px;
-}
-</style>
+<link rel="stylesheet" href="styles.css">
 
-<script type="text/javascript">
-var menuVisible = false;
-
-function resized()
-{
-	var x = document.documentElement.scrollHeight;
-	var p = document.getElementById("logo").offsetTop;
-	var q = document.getElementById("searchControls").offsetTop;
-	
-	if (x < 850 && x > 650)
-	{
-		p = x - 595;
-		q = x - 486;
-	}
-	
-	if (x > 850)
-	{
-		p = 250;
-		q = 359;
-	}
-	
-	document.getElementById("logo").style.top = p + "px";
-	document.getElementById("searchControls").style.top = q + "px";
-	
-}
-function toggleMenu()
-{
-	if(menuVisible == false)
-	{
-		document.getElementById("iconMenu").style.display = "block";
-		document.getElementById("iconMenuBorder").style.display = "block";
-		menuVisible = true;
-	}
-	else
-	{
-		document.getElementById("iconMenu").style.display = "none";
-		document.getElementById("iconMenuBorder").style.display = "none";
-		menuVisible = false;
-	}
-}
-function hideMenu()
-{
-	if(menuVisible == true)
-	{
-		document.getElementById("iconMenu").style.display = "none";
-		document.getElementById("iconMenuBorder").style.display = "none";
-		menuVisible = false;
-	}
-}
-function clearTextBox()
-{
-	document.getElementById("tb").value="";
-}
-</script>
+<script type="text/javascript" src="homeJS.js"></script>
 
 </head>
-<body onload="clearTextBox()" onresize="resized()">
+<body onload="clearTextBox();resized()" onresize="resized()">
 
 <div id="main" onclick="hideMenu()">
 
@@ -237,7 +29,7 @@ function clearTextBox()
 
 	<div class="searchControls" id="searchControls">
 	
-		<form action="https://www.google.com/search" method="get">
+		<form action="results.html" method="get">
 			<input id="tb" class="searchBar" type="text" name="q" autofocus spellcheck="false" autocomplete="false"/>
 			<br/>
 			<input class="searchButton" type="submit" value="" />
@@ -245,6 +37,8 @@ function clearTextBox()
 		</form>
 
 	</div>
+	
+	<img class="copyright" src="images/text-copyright.png"/>
 
 </div>
 

@@ -1,13 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>Doodle Google</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="styles.css">
+
+<script type="text/javascript" src="resultsJS.js"></script>
+
 </head>
 <body>
-check check
-<br/>
-<div class="gcse-searchresults-only"></div>
 
-<script async src="https://cse.google.com/cse.js?cx=a60dc127d3b1f847c"></script>
+<div id="mainRP" onclick="hideMenu()">
+
+	<a href="index.html"><img class="logoRP" src="images/object-logo.jpg"/></a>
+
+	<div class="searchControlsRP">
+		<form action="results.html" method="get">
+			<input class="searchBarRP" type="text" name="q" spellcheck="false" autocomplete="false"/>
+			<input class="searchButtonRP" type="submit" value="" />
+		</form>
+	</div>
+
+	<a href="https://accounts.google.com/ServiceLogin"><img class="button-signin-RP" src="images/button-signin-v2.png"/></a>
+
+</div>
+<div class="resultsArea" onclick="hideMenu()">
+	<script async src="https://cse.google.com/cse.js?cx=a60dc127d3b1f847c"></script>
+	<div class="gcse-searchresults-only"></div>
+</div>
+
+<img class="object-menu-RP" src="images/object-menu-v2.png" onclick="toggleMenu()"/>
+<iframe id="iconMenu-RP" src="menu.html"></iframe>
+<img id="iconMenuBorder-RP" src="images/iconMenu/border.png"/>
+
 </body>
 </html>
