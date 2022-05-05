@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Doodle Google</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="styles.css">
+
+<script type="text/javascript" src="homeJS.js"></script>
+
+</head>
+<body onload="clearTextBox();resized()" onresize="resized()">
+
+<div id="main" onclick="hideMenu()">
+
+	<a href="https://about.google.com/"><img class="text-about" src="images/text-about-v2.png"/></a>
+	
+	<a href="https://store.google.com/"><img class="text-store" src="images/text-store-v2.png"/></a>
+	
+	<a href="https://accounts.google.com/ServiceLogin"><img class="button-signin" src="images/button-signin-v2.png"/></a>
+
+
+	
+	<a href="https://www.google.ca/imghp"><img class="text-images" src="images/text-images-v2.png"/></a>
+	
+	<a href="https://mail.google.com/mail/"><img class="text-gmail" src="images/text-gmail-v2.png"/></a>
+
+	<img class="logo" id="logo" src="images/object-logo.jpg"/>
+
+	<div class="searchControls" id="searchControls">
+	
+		<form action="results.html" method="get">
+			<input id="tb" class="searchBar" type="text" name="q" autofocus spellcheck="false" autocomplete="false"/>
+			<br/>
+			<input class="searchButton" type="submit" value="" />
+			<input class="luckyButton" type="button" onclick="window.location.href='https://www.google.com/doodles'" value="" />
+		</form>
+
+	</div>
+	
+	<img class="copyright" src="images/text-copyright.png"/>
+
+</div>
+
+<img class="object-menu" src="images/object-menu-v2.png" onclick="toggleMenu()"/>
+<iframe id="iconMenu" src="menu.html"></iframe>
+<img id="iconMenuBorder" src="images/iconMenu/border.png"/>
+
+</body>
+</html>
