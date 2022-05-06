@@ -7,17 +7,18 @@
 <link rel="stylesheet" href="styles.css">
 
 <script type="text/javascript" src="resultsJS.js"></script>
+<script type="text/javascript" src="storage.js"></script>
 
 </head>
 <body>
 
-<div id="mainRP" onclick="hideMenu()">
+<div id="mainRP" onclick="hideMenu()" onload="getStorage()">
 
 	<a href="index.html"><img class="logoRP" src="images/object-logo.jpg"/></a>
 
 	<div class="searchControlsRP">
-		<form action="results.html" method="get">
-			<input class="searchBarRP" type="text" name="q" spellcheck="false" autocomplete="false"/>
+		<form action="results.html" method="get" onsubmit="setStorage()">
+			<input id="tb" class="searchBarRP" type="text" name="q" spellcheck="false" autocomplete="off"/>
 			<input class="searchButtonRP" type="submit" value="" />
 		</form>
 	</div>
@@ -25,6 +26,7 @@
 	<a href="https://accounts.google.com/ServiceLogin"><img class="button-signin-RP" src="images/button-signin-v2.png"/></a>
 
 </div>
+
 <div class="resultsArea" onclick="hideMenu()">
 	<script async src="https://cse.google.com/cse.js?cx=a60dc127d3b1f847c"></script>
 	<div class="gcse-searchresults-only"></div>
