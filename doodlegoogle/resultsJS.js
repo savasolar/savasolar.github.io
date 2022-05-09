@@ -36,7 +36,7 @@ function populateHiddenTextbox()
 	var text = document.getElementById("tbMobile").value;
 	document.getElementById("tbDesktop").value = text;
 	
-	alert(document.getElementById("tbDesktop").value);
+	//alert(document.getElementById("tbDesktop").value);
 }
 
 function setStorage()
