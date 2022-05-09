@@ -5,8 +5,6 @@ function setStorage()
 
 function getStorage()
 {
-//	let val = window.sessionStorage.getItem('query');
-//	console.log(val);
 	document.getElementById('tb').value = window.sessionStorage.getItem('query');
-	document.title = window.sessionStorage.getItem('query') + " - Doodle Google";
+	document.title = window.sessionStorage.getItem('query') + ' - Doodle Google';
 }

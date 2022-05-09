@@ -4,7 +4,8 @@
 <title>Doodle Google</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet" href="styles.css">
+<link id="styles" rel="stylesheet" href="styles.css">
+<link rel="icon" type="image/x-icon" href="images/favicon.png">
 
 <script type="text/javascript" src="homeJS.js"></script>
 <script type="text/javascript" src="storage.js"></script>
@@ -17,6 +18,7 @@
 	<a href="https://about.google.com/"><img class="text-about" src="images/text-about-v2.png"/></a>
 	<a href="https://store.google.com/"><img class="text-store" src="images/text-store-v2.png"/></a>
 	<a href="https://accounts.google.com/ServiceLogin"><img class="button-signin" src="images/button-signin-v2.png"/></a>
+	<a href="index.html"><img class="text-all" src="images/text-all.png"/></a>
 	<a href="https://www.google.ca/imghp"><img class="text-images" src="images/text-images-v2.png"/></a>
 	<a href="https://mail.google.com/mail/"><img class="text-gmail" src="images/text-gmail-v2.png"/></a>
 
@@ -24,14 +26,17 @@
 
 	<div class="searchControls" id="searchControls">
 		<form action="results.html" method="get" onsubmit="setStorage()">
-			<input id="tb" class="searchBar" type="text" name="q" autofocus spellcheck="false" autocomplete="off"/>
-			<br/>
+			<div class="searchBar-container">
+				<div class="searchBar-left"></div>
+				<input id="tb" class="searchBar-middle" type="text" name="q" autofocus spellcheck="false" autocomplete="off"/>
+				<div class="searchBar-right"></div>
+			</div>
 			<input class="searchButton" type="submit" value="" />
 			<input class="luckyButton" type="button" onclick="window.location.href='https://www.google.com/doodles'" value="" />
 		</form>
 	</div>
 	
-	<img class="copyright" src="images/text-copyright.png"/>
+	<a href="https://savasolar.github.io/"><img class="copyright" src="images/text-copyright.png"/></a>
 
 </div>
 

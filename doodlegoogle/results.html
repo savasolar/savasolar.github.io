@@ -4,27 +4,38 @@
 <title>Doodle Google</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet" href="styles.css">
+<link id="styles" rel="stylesheet" href="styles.css">
+<link rel="icon" type="image/x-icon" href="images/favicon.png">
 
 <script type="text/javascript" src="resultsJS.js"></script>
 <script type="text/javascript" src="storage.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', getStorage, false);
+</script>
+
 
 </head>
 <body>
 
-<div id="mainRP" onclick="hideMenu()" onload="getStorage()">
+<div id="mainRP" onclick="hideMenu()">
 
 	<a href="index.html"><img class="logoRP" src="images/object-logo.jpg"/></a>
 
 	<div class="searchControlsRP">
 		<form action="results.html" method="get" onsubmit="setStorage()">
+			<div class="searchBar-containerRP">
+				<div class="searchBar-leftRP"></div>
+				<input id="tb" class="searchBar-middleRP" type="text" name="q" spellcheck="false" autocomplete="off"/>
+				<div class="searchBar-rightRP"></div>
+			</div>
 			<input id="tb" class="searchBarRP" type="text" name="q" spellcheck="false" autocomplete="off"/>
 			<input class="searchButtonRP" type="submit" value="" />
 		</form>
 	</div>
 
 	<a href="https://accounts.google.com/ServiceLogin"><img class="button-signin-RP" src="images/button-signin-v2.png"/></a>
-
+		<a href="https://accounts.google.com/ServiceLogin"><img class="object-signin" src="images/object-signin.png"/></a>
+	
 </div>
 
 <div class="resultsArea" onclick="hideMenu()">
