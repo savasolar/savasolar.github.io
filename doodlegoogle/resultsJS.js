@@ -6,28 +6,6 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
   document.getElementById("styles").href = 'styles-mobile.css';
 }
 
-// function resized()
-// {
-	// var x = document.documentElement.scrollHeight;
-	// var p = document.getElementById("logo").offsetTop;
-	// var q = document.getElementById("searchControls").offsetTop;
-	
-	// if (x < 850 && x > 650)
-	// {
-		// p = x - 595;
-		// q = x - 486;
-	// }
-	
-	// if (x > 850)
-	// {
-		// p = 250;
-		// q = 359;
-	// }
-	
-	// document.getElementById("logo").style.top = p + "px";
-	// document.getElementById("searchControls").style.top = q + "px";
-	
-// }
 function toggleMenu()
 {
 	if(menuVisible == false)
@@ -52,7 +30,29 @@ function hideMenu()
 		menuVisible = false;
 	}
 }
-// function clearTextBox()
-// {
-	// document.getElementById("tb").value="";
-// }
+
+function setStorage()
+{
+	if (mobileLayout == false)
+	{
+		window.sessionStorage.setItem('query',document.getElementById('tbDesktop').value);
+	}
+	else
+	{
+		window.sessionStorage.setItem('query',document.getElementById('tbMobile').value);
+	}
+}
+
+function getStorage()
+{
+	if (mobileLayout == false)
+	{
+		document.getElementById('tbDesktop').value = window.sessionStorage.getItem('query');
+	}
+	else
+	{
+		document.getElementById('tbMobile').value = window.sessionStorage.getItem('query');
+	}
+
+	document.title = window.sessionStorage.getItem('query') + ' - Doodle Google';
+}

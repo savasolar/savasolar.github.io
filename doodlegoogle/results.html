@@ -8,7 +8,7 @@
 <link rel="icon" type="image/x-icon" href="images/favicon.png">
 
 <script type="text/javascript" src="resultsJS.js"></script>
-<script type="text/javascript" src="storage.js"></script>
+
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', getStorage, false);
 </script>
@@ -25,10 +25,10 @@ document.addEventListener('DOMContentLoaded', getStorage, false);
 		<form action="results.html" method="get" onsubmit="setStorage()">
 			<div class="searchBar-containerRP">
 				<div class="searchBar-leftRP"></div>
-				<input id="tb" class="searchBar-middleRP" type="text" name="q" spellcheck="false" autocomplete="off"/>
+				<input id="tbMobile" class="searchBar-middleRP" type="text" name="q" spellcheck="false" autocomplete="off"/>
 				<div class="searchBar-rightRP"></div>
 			</div>
-			<input id="tb" class="searchBarRP" type="text" name="q" spellcheck="false" autocomplete="off"/>
+			<input id="tbDesktop" class="searchBarRP" type="text" name="q" spellcheck="false" autocomplete="off"/>
 			<input class="searchButtonRP" type="submit" value="" />
 		</form>
 	</div>

@@ -58,3 +58,7 @@ function clearTextBox()
 {
 	document.getElementById("tb").value="";
 }
+function setStorage()
+{
+	window.sessionStorage.setItem('query',document.getElementById('tb').value);
+}
