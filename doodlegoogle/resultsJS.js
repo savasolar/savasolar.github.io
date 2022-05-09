@@ -31,6 +31,14 @@ function hideMenu()
 	}
 }
 
+function populateHiddenTextbox()
+{
+	var text = document.getElementById("tbMobile").value;
+	document.getElementById("tbDesktop").value = text;
+	
+	alert(document.getElementById("tbDesktop").value);
+}
+
 function setStorage()
 {
 	if (mobileLayout == false)
@@ -42,7 +50,6 @@ function setStorage()
 		window.sessionStorage.setItem('query',document.getElementById('tbMobile').value);
 	}
 }
-
 function getStorage()
 {
 	if (mobileLayout == false)

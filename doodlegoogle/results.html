@@ -25,16 +25,16 @@ document.addEventListener('DOMContentLoaded', getStorage, false);
 		<form action="results.html" method="get" onsubmit="setStorage()">
 			<div class="searchBar-containerRP">
 				<div class="searchBar-leftRP"></div>
-				<input id="tbMobile" class="searchBar-middleRP" type="text" name="q" spellcheck="false" autocomplete="off"/>
+				<input id="tbMobile" class="searchBar-middleRP" type="text" name="q" spellcheck="false" autocomplete="off" onkeyup="populateHiddenTextbox()"/>
 				<div class="searchBar-rightRP"></div>
 			</div>
-			<input id="tbDesktop" class="searchBarRP" type="text" name="q" spellcheck="false" autocomplete="off"/>
+			<input id="tbDesktop" class="searchBarRP" type="text" name="q" spellcheck="false" autocomplete="off" value=""/>
 			<input class="searchButtonRP" type="submit" value="" />
 		</form>
 	</div>
 
 	<a href="https://accounts.google.com/ServiceLogin"><img class="button-signin-RP" src="images/button-signin-v2.png"/></a>
-		<a href="https://accounts.google.com/ServiceLogin"><img class="object-signin" src="images/object-signin.png"/></a>
+	<a href="https://accounts.google.com/ServiceLogin"><img class="object-signin" src="images/object-signin.png"/></a>
 	
 </div>
 
