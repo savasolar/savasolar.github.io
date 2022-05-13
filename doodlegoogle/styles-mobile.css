@@ -12,27 +12,32 @@
 .gsc-result-info, .gsc-result-info b
 {
 	font-family:HandwritingFelt !important;
-	font-size: 16px !important;	
+	font-size: 18px !important;	
 }
 .gcsc-branding .gcsc-branding b
 {
 	font-family:HandwritingFelt !important;
-	font-size: 16px !important;
+	font-size: 18px !important;
 }
 .gs-snippet, .gs-snippet b
 {
 	font-family:HandwritingFelt !important;
-	font-size: 16px !important;
+	font-size: 18px !important;
 }
 .gsc-url-top, .gsc-url-bottom, .gsc-url-top b, .gsc-url-bottom b
 {
 	font-family:HandwritingFelt !important;
-	font-size: 16px !important;
+	font-size: 18px !important;
 }
 .gsc-cursor-page, .gsc-cursor-page b
 {
 	font-family:HandwritingFelt !important;
-	font-size: 16px !important;
+	font-size: 18px !important;
+}
+.gs-fileFormat, .gs-fileFormat b
+{
+	font-family:HandwritingFelt !important;
+	font-size: 18px !important;	
 }
 .gsc-adBlockVertical, .gsc-adBlock
 {
