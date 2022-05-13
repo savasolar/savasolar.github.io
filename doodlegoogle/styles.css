@@ -41,7 +41,11 @@
 }
 .gsc-adBlockVertical, .gsc-adBlock
 {
-    display:none;
+    display:none !important;
+}
+.gcsc-find-more-on-google-branding
+{
+	display: none !important;
 }
 .gsc-thinWrapper
 {
