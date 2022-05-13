@@ -1,3 +1,40 @@
+/*--------custom search customization------*/
+@font-face
+{
+	font-family:HandwritingFelt;
+	src:url('fonts/Handwriting-felt-Regular.ttf');
+}
+.gs-title
+{
+	font-family:HandwritingFelt !important;
+	font-size: 24px !important;
+}
+.gsc-result-info
+{
+	font-family:HandwritingFelt !important;
+	font-size: 16px !important;	
+}
+.gcsc-branding
+{
+	font-family:HandwritingFelt !important;
+	font-size: 16px !important;
+}
+.gs-snippet
+{
+	font-family:HandwritingFelt !important;
+	font-size: 16px !important;
+}
+.gsc-url-top, .gsc-url-bottom
+{
+	font-family:HandwritingFelt !important;
+	font-size: 16px !important;
+}
+.gsc-cursor-page
+{
+	font-family:HandwritingFelt !important;
+	font-size: 16px !important;
+}
+/*--------end--------*/
 body
 {
 	margin:0px;
@@ -136,7 +173,8 @@ img
 	margin:0px;
 	padding-left:40px;
 	padding-right:27px;
-	font-size:12pt;
+	font-family:HandwritingFelt;
+	font-size:24px;
 	background-color:transparent;
 	box-sizing:border-box;
 	z-index:100;
@@ -152,7 +190,8 @@ img
 	margin:0px;
 	padding-left:40px;
 	padding-right:27px;
-	font-size:12pt;
+	font-family:HandwritingFelt;
+	font-size:24px;
 	background-color:transparent;
 	box-sizing:border-box;
 	z-index:100;
@@ -199,7 +238,8 @@ img
 	border:none;
 	margin:0px;
 	background-image:url('images/object-searchbar-rsz-rp.png');
-	font-size:12pt;
+	font-family:HandwritingFelt;
+	font-size:24px;
 	position:relative;
 	top:-20px;
 	display:none;
@@ -234,6 +274,7 @@ input[type=text]::-ms-reveal {  display: none; width : 0; height: 0; }
 	cursor:pointer;
 	position:relative;
 	right:4px;
+	bottom:2px;
 	display:none;
 }
 .luckyButton
