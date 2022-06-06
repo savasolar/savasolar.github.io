@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+  <head>
+    <title>AnyDrum - Sava Solar</title>
+    <!--<link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />-->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link id="styles" rel="stylesheet" href="styles-a.css"/>
+
+    <script type="text/javascript" src="scripts.js"></script>
+
+  </head>
+  <body>
+    <div id="hamburger-menu-icon" onclick="hamburgerOpen()">☰</div>
+
+    <div id="mobile-navigation-page">
+      <span style="text-align:center">
+        <p><a href="index.html">Work</a></p>
+        <br/><br/>
+        <p><a href="about.html">About</a></p>
+        <br/><br/>
+        <p><a href="#" onclick="contactOpen()">Contact</a></p>
+      </span>
+      <div id="mobile-navigation-page-x" onclick="hamburgerClose()">✖</div>
+    </div>
+
+    <div id="contact-page">
+      <span style="text-align: center; padding-bottom:75px;">
+        <p>Email:</p>
+        <br/><br/>
+        <p><a href="mailto:savasolar@gmail.com" target="_blank">savasolar@gmail.com</a></p>
+      </span>
+      <div id="contact-page-x" onclick="contactClose()">✖</div>
+    </div>
+    <div class="main" align="center">
+      <header class="header">
+    
+        <div class="site-title">
+          <h3><a href="index.html">Sava Solar</a></h3>
+        </div>
+        <div class="navigation">
+          <a href="index.html">Work</a>
+          <a href="about.html">About</a>
+          <a href="#" onclick="contactOpen()">Contact</a>
+        </div>
+      </header>
+
+      <div class="content" align="center">
+
+        <h6>AnyDrum</h6>
+        <br/><br/>
+        <h4>Product Design / Development • <a href="https://anydrumtrigger.com/" target="_blank"><u>Visit Website</u></a></h4>
+
+        <div class="content-pane">
+
+            <div class="content-pane-product-page" align="left">
+
+                <img src="art/anydrum-laptop-proto.png"class="anydrum-page-img-01"/>
+                <h3>The Problem</h3>
+                <br/><br/>
+                <p>The majority of musicians I know live in cramped apartments and rely mostly on audio production software on their laptops to make their ideas a reality. This kind of recording setup works well for vocalists, guitarists, and keyboard players, but when it comes to recording drums (the loudest and most elaborate instrument!), most musicians are out of luck.</p>
+                <br/>
+                <p>There is an alternative which allows musicians with minimal resources to produce professional sounding drum performances. It’s called drum triggering software, and quite a few variations of it exist on the market—but they all suffer from complicated, messy designs, tons of redundant functionality, and extremely high price tags.</p>
+                <br/><br/>
+                <h3>The Solution</h3>
+                <br/><br/>
+                <p>For this reason, I took it into my own hands to create AnyDrum. It gets to the essence of drum triggering, without any excessive complications. Below is a chart showing the basic functionality of the program:</p>
+                <br/><br/>
+                <a href="art/Scan01.png"><img src="art/Scan01.png" width="100%"/></a>
+                <br/><br/>
+                <p>All of the coding and design work was done by me over the course of several months. Before I started working on this project, I had to use several online resources to learn the basics of C++, the main coding language used in the back-end.</p>
+                <br/>
+                <p>The main reason that I undertook this project, however, was all about the UX. I was very sensitive to the design issues of the pricey alternatives, and I felt that artists deserve software that clearly values beauty and simplicity. Right from the start, I knew essentially how it should look.</p>
+                <br/><br/>
+                <div align="center">
+                <a href="art/anydrum-first-sketch.jpg"><img src="art/anydrum-first-sketch.jpg" class="anydrum-page-img-02"/></a>
+                </div>
+                <br/><br/>
+                <p>I made sure that every detail the user encounters in this program has a clearly thought out intention. The visual component, for example, is necessary because one of the main user inputs (the Threshold parameter) has to deal directly with the amplitude of the input signal. The “Select Sample” button, as well as the name of the selected file beside it, are there so that the user can control the core function of the program. Each of the 4 knobs (later increased to 5) represents an essential variable in the function that modifies input audio.</p>
+                <br/>
+                <p>As a result of this minimalist design process, the number of parameters on the program is as low as possible—this makes AnyDrum uniquely simple and straightforward to use.</p>
+                <br/>
+                <p>Below are a couple of videos of the final product in action:</p>
+                <br/><br/>
+                <div class="flex-video-container">
+                    <video controls class="flex-video">
+                      <source src="art/anydrum-fp-video-01.mp4" type="video/mp4">
+                    </video>
+                    <br class="flex-video-line-break"/><br class="flex-video-line-break"/>
+                    <video controls class="flex-video">
+                      <source src="art/anydrum-fp-video-02.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <br/><br/>
+                <h3>The Design and Coding Process</h3>
+                <br/><br/>
+                <p>To create digital wireframes, I mostly relied on Microsoft PowerPoint. I realize that this choice of software is rather unconventional, but the option to create several slides for different brainstorm sessions, as well as the easily accessible shapes and drawing tools, proved to be quite useful for UX design.</p>
+                <br/>
+                <p>Below are a couple of early design ideas, which helped to narrow down the best choices for colour palette and layout dimensions:</p>
+                <br/><br/>
+                <a href="art/anydrum-designEvolution.png"><img src="art/anydrum-designEvolution.png" width="100%"/></a>
+                <br/><br/>
+                <p>Once I figured out a relatively satisfying design to start with, I turned my attention to coding for a couple of weeks. The main tasks involved in this process were i) figuring out how to play a selected audio file depending on input amplitude (this is more on the back-end), and ii) figuring out how to make an interactive visual component that gives users a better idea of what the program is doing (this is more on the front-end).</p>
+                <br/>
+                <p>The hardest part was creating the visual component, as there were very few free online resources I could find to help me out. When I finally figured it out, I was inspired to make my own online tutorial (<a href="https://medium.com/@savasolar/making-a-simple-scrolling-waveform-in-a-juce-audio-plugin-6d1a1f89910f" target="_blank"><u>click here to check it out!</u></a>). It gets around 50 views each month, and I’m overjoyed to see it helping other programmers out!</p>
+                <br/><br/>
+                <video controls style="width:100%; height:auto;">
+                    <source src="art/progress-video.mp4" type="video/mp4">
+                </video>
+                <br/><br/>
+                <p>The above video showcases the working visual component, file selection buttons, toggle switch, and input volume, threshold, and output volume knobs, respectively.</p>
+                <br/>
+                <p>With the majority of the coding work figured out, it was time to shift focus back to the UX design. Just like with the parameters I chose to include in the program, I wanted every decision regarding the color scheme to have a very clear intention. Below is the final design of the program:</p>
+                <br/><br/>
+                <div align="center">
+                <a href="art/anydrum.png"><img src="art/anydrum.png" class="anydrum-page-img-02"/></a>
+                </div>
+                <br/><br/>
+                <p>This color scheme can be separated into 3 layers, which serve as the background layer, the middle layer, and the foreground.</p>
+                <br/><br/>
+                <a href="art/anydrum-finaldesign-layers.png"><img src="art/anydrum-finaldesign-layers.png" width="100%"/></a>
+                <br/><br/>
+                <p>Most of the styling happens in the middle layer, where the colours were chosen carefully to create thematic connections. The outline around the threshold knob, for example, is the same colour as the threshold line on the waveform. This provides users with an intuitive idea that the knob and line are connected—and in fact they are, on the back-end.</p>
+                <br/>
+                <p>It’s also the case that the only coloured elements on the user interface are the ones that are active when triggering is turned on, and disabled when it is turned off. The rest of the interactive elements of the program are coloured in one of two shades of grey, and they are active regardless of whether or not triggering is enabled.</p>
+                <br/>
+                <p>The point of this colour scheme is to make it easy for users to learn to use the program without the need for elaborate instruction manuals or tutorials.</p>
+                <br/><br/>
+                <h3>The Big Takeaway</h3>
+                <br/><br/>
+                <p>When I decided to work on this project, I had never used C++ or made an audio application before, and I thought my chances of success were very slim. There were many moments throughout the process where I ran into hurdles that felt insurmountable.</p>
+                <br/>
+                <p>However, over and over again, I found that as long as I kept putting in enough effort, I would inevitably get the results I was looking for. It was almost miraculous!</p>
+                <br/>
+                <p>So, my key takeaway from working on AnyDrum is that, if you get a big idea, it is absolutely possible to achieve it, no matter how big—as long as you put in enough effort each day.</p>
+            </div>
+
+        </div>
+
+      </div>
+
+      <footer>
+        <h5>
+          <a href="Sava_Solar_-_Resume.pdf" target="_blank"><u>Resume</u></a>
+          <a href="https://www.linkedin.com/in/sava-solar-915a8b192/" target="_blank"><u>LinkedIn</u></a>
+          <a href="https://github.com/savasolar/" target="_blank"><u>Github</u></a>
+        </h5>
+        <br/><br/>
+        <p>© Sava Solar 2022</p>
+
+      </footer>
+
+    </div>
+
+</body>
+</html>
