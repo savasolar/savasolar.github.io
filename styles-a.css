@@ -195,10 +195,11 @@ hr
 .content-pane-anydrum-left
 {
   width:58%;
-  background-image:url("art/anydrum.png");
-  background-size:cover;
+  background-image:url("art/anydrum-tpbg.png"), linear-gradient(166.46deg, #EC987E 4.51%, #D76CD9 100%);
+  background-size:contain;
   background-position:center;
-  height:0;
+  background-repeat: no-repeat;
+  /*height:0;*/
   padding-top:36.25%;/*(height/width ratio * div width %---550/880*0.58=0.3625)*/
 }
 .content-pane-anydrum-right
@@ -220,10 +221,11 @@ hr
 .content-pane-dg-right
 {
   width:58%;
-  background-image:url("art/doodlegoogle.png");
-  background-size:cover;
+  background-image:url("art/doodlegoogle-tpbg.png"), linear-gradient(166.46deg, #7EECD8 4.51%, #6CB2D9 100%), linear-gradient(304.52deg, #353535 13.21%, #7E7E7E 86.63%);
+  background-size:contain;
   background-position:center;
-  height:0;
+  background-repeat:no-repeat;
+  /*height:0;*/
   padding-top:36.25%;
 }
 .content-pane-link:hover .content-pane-dg-left, .content-pane-link:hover .content-pane-anydrum-right/*, .content-pane-dg-left:hover*/
