@@ -1,0 +1,283 @@
+@font-face
+{
+  font-family:itc-avant-garde-gothic-pro-light;
+  src:url('fonts/ITCAvantGardePro-Bk.otf');
+}
+@font-face
+{
+  font-family:itc-avant-garde-gothic-pro-regular;
+  src:url('fonts/ITCAvantGardePro-Md.otf');
+}
+@font-face
+{
+  font-family:itc-avant-garde-gothic-pro-bold;
+  src:url('fonts/ITCAvantGardePro-Bold.otf');
+}
+body, h1, h2, h3, h4, h5, h6, p
+{
+  margin:0px;
+}
+h1, h2, h3, h4, h5, h6
+{
+  font-weight:500;/*300; 500; 700*/
+  line-height:1.1;
+  font-family:itc-avant-garde-gothic-pro-bold;
+}
+body
+{
+  background-color: #1d1a19;
+  color:#ffffff;
+/*  image-rendering:crisp-edges;*/
+}
+h1
+{
+  font-size:78pt;
+}
+h2
+{
+  font-size:34pt;
+}
+h3
+{
+  font-size:24pt;
+}
+h4
+{
+  font-size:20pt;
+}
+h5
+{
+  font-size:18pt;
+}
+h6
+{
+    padding-top:25px;
+    padding-bottom:0px;
+    font-size:50pt;
+}
+p
+{
+  font-family:itc-avant-garde-gothic-pro-regular;
+  font-size:19pt;
+  line-height: 1.6;
+}
+a
+{
+  color:#ffffff;
+}
+a:link { text-decoration: none; }
+a:visited { text-decoration: none; }
+a:hover { text-decoration: none; }
+a:active { text-decoration: none; }
+u
+{
+  text-decoration: underline 1px;
+  text-underline-offset: 0.2em;
+}
+img
+{
+  image-rendering: -webkit-optimize-contrast;
+}
+.main
+{
+  display:block;
+}
+header
+{
+/*  background-color: firebrick;*/
+  display:flex;
+  padding-top:40px;
+  padding-bottom:40px;
+  padding-left:80px;
+  padding-right:80px;
+}
+footer
+{
+  padding-top:10px;
+  padding-bottom:50px;
+  padding-left:80px;
+  padding-right:80px;
+/*  background-color:orange;*/
+}
+footer a
+{
+  padding-left:4px;
+  padding-right:4px;
+}
+.flex-video-container
+{
+  display:flex;
+}
+.flex-video
+{
+  width:46%;
+  height:auto;
+  padding-left:2%;
+  padding-right:2%;
+}
+.flex-video-line-break
+{
+  display:none;
+}
+.site-title
+{
+/*  background-color: chocolate;*/
+  min-height:32px;
+  text-align: left;
+  width:50%;
+}
+.navigation
+{
+/*  background-color: lightslategrey;*/
+  min-height:32px;
+  line-height:32px;
+  text-align: right;
+  width:50%;
+  font-family:itc-avant-garde-gothic-pro-regular;
+  font-size:17px;
+}
+.navigation a
+{
+  padding-left:10px;
+  padding-right:10px;
+}
+.content
+{
+/*  background-color:indigo;*/
+  max-width:1400px;
+  padding-left:80px;
+  padding-right:80px;
+}
+hr
+{
+  border-top:1px solid white;
+  border-left:0px;
+  border-right:0px;
+  border-bottom:0px;
+  margin-top:40px;
+  margin-bottom:40px;
+}
+.content-pane
+{
+  padding-top:60px;
+  padding-bottom:60px;
+  display:flex;
+  flex-wrap: wrap;
+}
+.content-pane-link
+{
+    display:flex;
+    width:100%;
+}
+.content-pane-product-page
+{
+  width:77%;
+  margin: 0 auto;
+}
+.content-pane-about-left
+{
+    width:23%;
+}
+.content-pane-about-right
+{
+    width:77%;
+    padding-left:35px;
+    box-sizing:border-box;
+}
+.content-pane-intro-left
+{
+  width:77%;
+}
+.content-pane-intro-right
+{
+  width:23%;
+}
+.content-pane-anydrum-left
+{
+  width:58%;
+  background-image:url("art/anydrum-tpbg.png"), linear-gradient(166.46deg, #EC987E 4.51%, #D76CD9 100%);
+  background-size:contain;
+  background-position:center;
+  background-repeat: no-repeat;
+  /*height:0;*/
+  padding-top:36.25%;/*(height/width ratio * div width %---550/880*0.58=0.3625)*/
+}
+.content-pane-anydrum-right
+{
+  text-align:left;
+  width:42%;
+  padding:30px;
+  box-sizing:border-box;
+  transition:0.25s;
+}
+.content-pane-dg-left
+{
+  text-align:right;
+  width:42%;
+  padding:30px;
+  box-sizing:border-box;
+  transition:0.25s;
+}
+.content-pane-dg-right
+{
+  width:58%;
+  background-image:url("art/doodlegoogle-tpbg.png"), linear-gradient(166.46deg, #7EECD8 4.51%, #6CB2D9 100%), linear-gradient(304.52deg, #353535 13.21%, #7E7E7E 86.63%);
+  background-size:contain;
+  background-position:center;
+  background-repeat:no-repeat;
+  /*height:0;*/
+  padding-top:36.25%;
+}
+.content-pane-link:hover .content-pane-dg-left, .content-pane-link:hover .content-pane-anydrum-right/*, .content-pane-dg-left:hover*/
+{
+  background-color:white;
+  color:#1d1a19;
+}
+#contact-page
+{
+    background-color:#1d1a19;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position:fixed;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    display:none;
+}
+#contact-page-x
+{
+    color:white;
+    width:85px;
+    height:85px;
+    font-family:arial;
+    font-size:20pt;
+    position:fixed;
+    top:0px;
+    left:0px;
+    cursor:pointer;
+    text-align:center;
+    line-height:85px;
+}
+#hamburger-menu-icon
+{
+  display:none;
+}
+#mobile-navigation-page
+{
+  display:none;
+}
+#mobile-navigation-page-x
+{
+  display:none;
+}
+.anydrum-page-img-01
+{
+  width:100%;
+  padding-bottom:60px;
+}
+.anydrum-page-img-02
+{
+  width:65%;
+}

@@ -1,115 +1,81 @@
 <!DOCTYPE html>
-  <head>
-    <title>Sava Solar</title>
-    <!--<link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />-->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link id="styles" rel="stylesheet" href="styles-a.css"/>
+<html>
 
-    <script type="text/javascript" src="scripts.js"></script>
+<head>
 
-  </head>
-  <body>
-    <div id="hamburger-menu-icon" onclick="hamburgerOpen()">☰</div>
+<title>Sava.Solar/</title>
 
-    <div id="mobile-navigation-page">
-      <span style="text-align:center">
-        <p><a href="index.html">Work</a></p>
-        <br/><br/>
-        <p><a href="about.html">About</a></p>
-        <br/><br/>
-        <p><a href="#" onclick="contactOpen()">Contact</a></p>
-      </span>
-      <div id="mobile-navigation-page-x" onclick="hamburgerClose()">✖</div>
-    </div>
+<style>
+a {
+	color: black;
+	text-decoration:none;
+}
 
-    <div id="contact-page">
-      <span style="text-align: center; padding-bottom:75px;">
-        <p>Email:</p>
-        <br/><br/>
-        <p><a href="mailto:savasolar@gmail.com" target="_blank">savasolar@gmail.com</a></p>
-      </span>
-      <div id="contact-page-x" onclick="contactClose()">✖</div>
-    </div>
-    <div class="main" align="center">
-      <header class="header">
-    
-        <div class="site-title">
-          <h3><a href="index.html">Sava Solar</a></h3>
-        </div>
-        <div class="navigation">
-          <a href="index.html">Work</a>
-          <a href="about.html">About</a>
-          <a href="#" onclick="contactOpen()">Contact</a>
-        </div>
-      </header>
-      <div class="content">
+a.special {
+	color: blue;
+	cursor:pointer;
+}
 
-        <div class="content-pane">
+	body {
+      font-family: 'SpaceMono';
+	  font-size:24pt;
+	  /*background-image:url('omg.png');*/
+	  background-size:cover;
+	  background-attachment: fixed;
+    }
+    @font-face {
+      font-family: 'SpaceMono';
+      src: url('ubuntu-mono.ttf');
+      font-weight: normal;
+      font-style: normal;
+    }
+	img {
+	  display:inline;
+	}
+</style>
 
-          <div class="content-pane-intro-left" align="left">
-            <h1>Hi, I’m Sava. I like to combine software and art.</h1>
-            <br/><br/>
-            <h4>I also love playing music, writing, and studying philosophy.</h4>
-          </div>
+<script type="text/javascript">
 
-          <div class="content-pane-intro-right" align="right">
-            <img src="art/loop03.gif" width="100%"/>
-          </div>
+var mobileLayout = false;
 
-        </div>
+function checkIfMobile() {
+	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+	  mobileLayout = true;
+	  
+	  document.getElementById('blank-space').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	  document.getElementById('underscores_1').innerHTML = '______________________________';
+	  document.getElementById('underscores_2').innerHTML = '______________________________';
+	}
+}
 
-        <hr>
-        
-        <div class="content-pane">
-          <a href="anydrum.html" class="content-pane-link">
-            <div class="content-pane-anydrum-left" align="right">
-            </div>
-          
-            <div class="content-pane-anydrum-right">
-              <h2>AnyDrum</h2>
-              <br/><br/>
-              <h4>Solar Audio Software • 2021-2022</h4>
-              <br/><br/>
-              <p>A digital audio effect that makes anything sound like a drum kit.</p>
-            </div>
-          </a>
-        </div>
+</script>
 
-        <hr>
+</head>
 
-        <div class="content-pane">
-          <a href="doodlegooglecs.html" class="content-pane-link">
-            <div class="content-pane-dg-left">
-              <h2>Doodle Google</h2>
-              <br/><br/>
-              <h4>Personal Project • 2022</h4>
-              <br/><br/>
-              <p>A website that looks and feels like Google—but it’s all hand drawn by me.</p>
-            </div>
+<body onload="checkIfMobile()">
 
-            <div class="content-pane-dg-right" align="left">
-            </div>
-          </a>
+<div align="center">
 
-        </div>
+<pre id="source" style="font-family:spacemono; background-color:white; border-left:30px solid white; border-right:30px solid white; width:fit-content; text-align:left; cursor:default;">
 
-        <hr>
-      
-      </div>
+<a href="index.html"><b>&#127776; Sava.Solar/</b></a><span id="blank-space">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a href="contact.html">&#128231;</a>
+<span id="underscores_1" style="letter-spacing:-1px;">________________________________________________________________</span>
 
-      <footer>
-        <h5>
-          <a href="Sava_Solar_-_Resume.pdf" target="_blank"><u>Resume</u></a>
-          <a href="https://www.linkedin.com/in/sava-solar-915a8b192/" target="_blank"><u>LinkedIn</u></a>
-          <a href="https://github.com/savasolar/" target="_blank"><u>Github</u></a>
-        </h5>
-        <br/><br/>
-        <p>© Sava Solar 2022</p>
+<a href="music.html" id="music-title"><span id="music-title-arrow">&#9678;</span> Music</a>
 
-      </footer>
+<a href="code.html" id="code-title"><span id="code-title-arrow">&#9678;</span> Code</a>
 
-    </div>
-  </body>
+<a href="writing.html" id="other-title"><span id="other-title-arrow">&#9678;</span> Writing</a>
+<span id="underscores_2" style="letter-spacing:-1px;">________________________________________________________________</span>
+
+&#169; <span style="font-size:20pt;">Sava Solar 2023</span>
+
+
+</pre>
+
+</div>
+
+</body>
+
 </html>

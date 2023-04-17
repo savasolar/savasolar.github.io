@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Sava.Solar/Contact</title>
+
+<style>
+a {
+	color: black;
+	text-decoration:none;
+}
+
+a.special {
+	color: blue;
+	cursor:pointer;
+}
+
+	body {
+      font-family: 'SpaceMono';
+	  font-size:24pt;
+	  /*background-image:url('omg.png');*/
+	  background-size:cover;
+	  background-attachment: fixed;
+    }
+    @font-face {
+      font-family: 'SpaceMono';
+      src: url('ubuntu-mono.ttf');
+      font-weight: normal;
+      font-style: normal;
+    }
+	img {
+	  display:inline;
+	}
+</style>
+
+<script type="text/javascript">
+
+var mobileLayout = false;
+
+function checkIfMobile() {
+	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+	  mobileLayout = true;
+	  
+	  document.getElementById('blank-space').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	  document.getElementById('underscores_1').innerHTML = '______________________________';
+	  document.getElementById('underscores_2').innerHTML = '______________________________';
+	}
+}
+
+</script>
+
+</head>
+
+<body>
+
+<div align="center">
+
+<pre id="source" style="font-family:spacemono; background-color:white; border-left:30px solid white; border-right:30px solid white; width:fit-content; text-align:left; cursor:default;">
+
+<a href="index.html"><b>&#127776; Sava.Solar/</b></a><span id="blank-space">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a href="contact.html">&#128231;</a><div id="contact_disable" style="">
+
+	Contact<form action="https://api.web3forms.com/submit" method="POST" id="form"><input type="hidden" name="access_key" value="1e90f326-0a16-46fe-8694-edc1b3538cf6" />
+	<textarea placeholder="Your email" name="email" rows="1" required style="resize:none; width:700px; height:auto; font-family:spacemono; font-size:22pt; font-color:darkgrey;"></textarea>
+	<textarea name="message" required rows="7" style="resize:none; width:700px; height:auto; font-family:spacemono; font-size:22pt; font-color:darkgrey;"></textarea>
+	<a href="javascript:;" onclick="parentNode.submit();" href="#" class="special">(Send)</a></div></form>
+<span id="underscores_1" style="letter-spacing:-1px;">________________________________________________________________</span>
+
+&#169; <span style="font-size:20pt;">Sava Solar 2023</span>
+
+
+</pre>
+
+</div>
+
+<script>
+  // Get the form and the textarea element
+  const form = document.querySelector('#contact-form');
+  const textarea = document.querySelector('#message');
+
+  // Add an event listener to the form for when it's submitted
+  form.addEventListener('submit', (event) => {
+    // Prevent the default form submission behavior
+    event.preventDefault();
+
+    // Get the email and message text from the form
+    const email = form.elements.email.value.trim();
+    const message = textarea.value.trim();
+
+    // Combine the email and message text into a single string with a space separator
+    const data = email + ' ' + message;
+</script>
+
+</body>
+
+</html>
