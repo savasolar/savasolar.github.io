@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Sava.Solar/</title>
+
+<style>
+a {
+	color: black;
+	text-decoration:none;
+}
+
+a.special {
+	color: blue;
+	cursor:pointer;
+}
+
+	body {
+      font-family: 'SpaceMono';
+	  font-size:24pt;
+	  /*background-image:url('omg.png');*/
+	  background-size:cover;
+	  background-attachment: fixed;
+    }
+    @font-face {
+      font-family: 'SpaceMono';
+      src: url('ubuntu-mono.ttf');
+      font-weight: normal;
+      font-style: normal;
+    }
+	img {
+	  display:inline;
+	}
+</style>
+
+<script type="text/javascript">
+
+var mobileLayout = false;
+
+function checkIfMobile() {
+	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+	  mobileLayout = true;
+	  
+	  document.getElementById('blank-space').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	  document.getElementById('underscores_1').innerHTML = '______________________________';
+	  document.getElementById('underscores_2').innerHTML = '______________________________';
+	}
+}
+
+</script>
+
+</head>
+
+<body onload="checkIfMobile()">
+
+<div align="center">
+
+<pre id="source" style="font-family:spacemono; background-color:white; width:fit-content; text-align:left; cursor:default;">
+
+<a href="https://sava.solar/"><b>&#127776; Sava.Solar/</b></a><span id="blank-space">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a href="contact">&#128231;</a>
+<span id="underscores_1" style="letter-spacing:-1px;">________________________________________________________________</span>
+
+<a href="music" id="music-title"><span id="music-title-arrow">&#9678;</span> Music</a>
+
+<a href="code" id="code-title"><span id="code-title-arrow">&#9678;</span> Code</a>
+
+<a href="writing" id="other-title"><span id="other-title-arrow">&#9678;</span> Writing</a>
+<span id="underscores_2" style="letter-spacing:-1px;">________________________________________________________________</span>
+
+&#169; <span style="font-size:20pt;">Sava Solar 2023</span>
+
+
+</pre>
+
+</div>
+
+</body>
+
+</html>
