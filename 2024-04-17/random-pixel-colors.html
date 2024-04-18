@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Random Pixel Colors</title>
+<style>
+    body {
+        background-color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    canvas {
+        border: 1px solid #000;
+    }
+</style>
+</head>
+<body>
+<canvas id="pixelCanvas" width="800" height="800"></canvas>
+<script>
+    const canvas = document.getElementById('pixelCanvas');
+    const ctx = canvas.getContext('2d');
+    const pixelData = ctx.createImageData(canvas.width, canvas.height);
+
+    function randomColor() {
+        return Math.floor(Math.random() * 256);
+    }
+
+    function fillCanvas() {
+        for (let i = 0; i < pixelData.data.length; i += 4) {
+            pixelData.data[i] = randomColor();     // Red
+            pixelData.data[i+1] = randomColor();   // Green
+            pixelData.data[i+2] = randomColor();   // Blue
+            pixelData.data[i+3] = 255;             // Alpha (fully opaque)
+        }
+        ctx.putImageData(pixelData, 0, 0);
+    }
+
+    fillCanvas();
+    setInterval(fillCanvas, 1000);
+</script>
+</body>
+</html>
