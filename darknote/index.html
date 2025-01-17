@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>darknote</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #1e1e1e;
+            overflow: hidden;
+        }
+        textarea {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 14pt;
+            font-family: Consolas, monospace;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            border: none;
+            resize: none;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <textarea placeholder="Start typing..."></textarea>
+    <script>
+        const textarea = document.querySelector('textarea');
+        
+        // Load content from URL hash on page load
+        window.addEventListener('load', () => {
+            if (window.location.hash) {
+                textarea.value = decodeURIComponent(window.location.hash.slice(1));
+                updateTitle();
+            }
+        });
+
+        // Update URL hash and title when text changes
+        textarea.addEventListener('input', () => {
+            const encoded = encodeURIComponent(textarea.value);
+            window.location.hash = encoded;
+            updateTitle();
+        });
+
+        // Update page title based on first line of text
+        function updateTitle() {
+            const firstLine = textarea.value.split('\n')[0].trim();
+            document.title = firstLine || 'darknote';
+        }
+    </script>
+</body>
+</html>
