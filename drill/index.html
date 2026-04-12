@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drill</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: #000000;
+            color: #ffffff;
+            font-family: Arial;
+            overflow: hidden;
+        }
+
+        button {
+            background-color: #000000;
+            width: 44px;
+            height: 44px;
+            margin-right: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border: none;
+        }
+        button:hover {
+            background-color: #333333;
+        }
+        button:active {
+            background-color: #000000;
+        }
+        button.moded {
+            background-color: #333333;
+        }
+
+        #header {
+            height: 120px;
+            width: 100%;
+            background: #000000;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        #titleBox {
+            font-family: Arial;
+            font-size: 24px;
+            font-weight: bold;
+            width: 400px;
+            height: 40px;
+            background-color: #000000;
+            outline-color: #ffffff;
+            border: none;
+        }
+
+        #speedLabel {
+            height: 44px;
+            width: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            margin-right: 8px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .divider {
+            width: 2px;
+            height: 44px;
+            margin-right: 8px;
+            background-color: #333333;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+
+        .top-row {
+            display: flex;
+            align-items: left;
+            justify-content: space-between;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .top-row h1 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        .bottom-row {
+            display: flex;
+            align-items: left;
+            margin-top: 8px;
+        }
+
+        #timeline {
+            width: 100%;
+            height: calc(100vh - 120px);
+            position: relative;
+            background: #000000;
+        }
+
+        /* ── Playback slider strip ── */
+        #slider-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            display: block;
+            cursor: pointer;
+            z-index: 20;
+        }
+
+        /* ── Waveform sits 20px below the slider ── */
+        #waveform {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 20px);
+            display: block;
+        }
+
+        /* ── Playhead vertical line through the waveform ── */
+        #playhead-canvas {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 20px);
+            pointer-events: none;
+            z-index: 15;
+            display: block;
+        }
+
+        #chops {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 20px);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* ── Isolation overlay: sits above chops, below playhead ── */
+        #isolation-canvas {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 20px);
+            pointer-events: none;
+            z-index: 12;
+            display: block;
+        }
+
+        /* ── Hover overlay: sits above isolation, below playhead ── */
+        #hover-canvas {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 20px);
+            pointer-events: none;
+            z-index: 13;
+            display: block;
+        }
+
+        .chop-line {
+            position: absolute;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: repeating-linear-gradient(
+                to bottom,
+                #333333 0px 2px,
+                black 2px 4px
+            );
+            transform: translateX(-50%);
+        }
+
+        .hidden-input {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div class="top-row">
+            <input type="text" id="titleBox" value="Untitled drill" onfocus="this.select()" onkeydown="if(event.key==='Enter') this.blur()"/>
+        </div>
+
+        <div class="bottom-row">
+            <button id="playPause" onclick="togglePlayPause()"><svg width="44" height="44"><use href="#playIcon"></use></svg></button>
+            <button onclick="stop()"><svg width="44" height="44"><use href="#stopIcon"></use></svg></button>
+            <button id="loop" onclick="toggleLoop()"><svg width="44" height="44"><use href="#loopOffIcon"></use></svg></button>
+            <div class="divider"></div>
+            <button id="pointerButton" onclick="setMode('pointer')"><svg width="44" height="44"><use href="#pointerIcon"></use></svg></button>
+            <button id="scissorsButton" onclick="setMode('scissors')"><svg width="44" height="44"><use href="#scissorsIcon"></use></svg></button>
+            <button onclick="resetChops()"><svg width="44" height="44"><use href="#resetIcon"></use></svg></button>
+            <div class="divider"></div>
+            <button onclick="slowDown()"><svg width="44" height="44"><use href="#arrowLeftIcon"></use></svg></button>
+            <div id="speedLabel">1.00</div>
+            <button onclick="speedUp()"><svg width="44" height="44"><use href="#arrowRightIcon"></use></svg></button>
+            <div class="divider"></div>
+            <button onclick="document.getElementById('mp3-input').click()"><svg width="44" height="44"><use href="#newIcon"></use></svg></button>
+            <button onclick="saveDrill()"><svg width="44" height="44"><use href="#saveIcon"></use></svg></button>
+            <button onclick="document.getElementById('drill-input').click()"><svg width="44" height="44"><use href="#loadIcon"></use></svg></button>
+        </div>
+    </div>
+
+    <div id="timeline">
+        <canvas id="slider-canvas"></canvas>
+        <canvas id="waveform"></canvas>
+        <canvas id="playhead-canvas"></canvas>
+        <canvas id="isolation-canvas"></canvas>
+        <canvas id="hover-canvas"></canvas>
+        <div id="chops"></div>
+    </div>
+
+    <!-- Hidden audio element for playback -->
+    <audio id="audio" preload="auto"></audio>
+
+    <input type="file" id="mp3-input" accept="audio/mpeg,audio/mp3" class="hidden-input">
+    <input type="file" id="drill-input" accept=".drl" class="hidden-input">
+
+    <script>
+        // ── Core state ──────────────────────────────────────────────────────────
+        let duration       = 0;
+        let currentFileName = '';
+        let timestamps     = [];
+        let currentMode    = 'pointer';
+        let audioContext   = null;
+        let audioBufferCache = null;
+        let mp3ArrayBuffer = null;
+        let speed          = 1.0;
+        let loopEnabled    = false;
+        let objectURL      = null;   // for revoking old blob URLs
+
+        // Slider drag state
+        let isDraggingSlider = false;
+
+        // ── Isolation context state ─────────────────────────────────────────────
+        // null = no isolation; a number = index into the segments array of the
+        // currently-isolated segment (0 = before first chop, 1 = between chops 1&2, etc.)
+        let isolatedSegmentIndex = null;
+
+        // ── DOM refs ────────────────────────────────────────────────────────────
+        const audio          = document.getElementById('audio');
+        const waveCanvas     = document.getElementById('waveform');
+        const sliderCanvas   = document.getElementById('slider-canvas');
+        const chopsContainer = document.getElementById('chops');
+        const playheadCanvas = document.getElementById('playhead-canvas');
+        const isolationCanvas = document.getElementById('isolation-canvas');
+        const hoverCanvas     = document.getElementById('hover-canvas');
+        const pCtx           = playheadCanvas.getContext('2d');
+        const ctx            = waveCanvas.getContext('2d', { alpha: false });
+        const sCtx           = sliderCanvas.getContext('2d');
+        const iCtx           = isolationCanvas.getContext('2d');
+        const hCtx           = hoverCanvas.getContext('2d');
+
+        // ── Playback controls ───────────────────────────────────────────────────
+        function togglePlayPause() {
+            if (!duration) return;
+            if (audio.paused) {
+                audio.play();
+                document.getElementById('playPause').querySelector('use').setAttribute('href', '#pauseIcon');
+            } else {
+                audio.pause();
+                document.getElementById('playPause').querySelector('use').setAttribute('href', '#playIcon');
+            }
+        }
+
+        function togglePlayStop() {
+            if (!duration) return;
+            if (audio.paused) {
+                audio.play();
+                document.getElementById('playPause').querySelector('use').setAttribute('href', '#pauseIcon');
+            } else {
+                stop();
+            }
+        }
+
+        function stop() {
+            audio.pause();
+            // When isolated, "stop" means return to the segment start, not the track start.
+            if (isolatedSegmentIndex !== null) {
+                const segs = getSegments();
+                audio.currentTime = segs[isolatedSegmentIndex][0];
+            } else {
+                audio.currentTime = 0;
+            }
+            document.getElementById('playPause').querySelector('use').setAttribute('href', '#playIcon');
+            updatePlayhead();
+        }
+
+        function toggleLoop() {
+            loopEnabled = !loopEnabled;
+            audio.loop   = loopEnabled;
+            document.getElementById('loop').querySelector('use').setAttribute('href', loopEnabled ? '#loopOnIcon' : '#loopOffIcon');
+        }
+
+        function slowDown() {
+            speed = Math.max(0.25, parseFloat((speed - 0.25).toFixed(2)));
+            audio.playbackRate = speed;
+            document.getElementById('speedLabel').textContent = speed.toFixed(2);
+        }
+
+        function speedUp() {
+//            speed = Math.min(4.0, parseFloat((speed + 0.25).toFixed(2)));
+            speed = Math.min(2.0, parseFloat((speed + 0.25).toFixed(2)));
+            audio.playbackRate = speed;
+            document.getElementById('speedLabel').textContent = speed.toFixed(2);
+        }
+
+        // ── Playhead rendering ──────────────────────────────────────────────────
+        function getPlayheadX() {
+            if (!duration) return 0;
+            return (audio.currentTime / duration) * sliderCanvas.width;
+        }
+
+        function drawSlider() {
+            const w = sliderCanvas.width;
+            const h = sliderCanvas.height;
+            const x = getPlayheadX();
+
+            // Green background
+            sCtx.fillStyle = '#000000';
+            sCtx.fillRect(0, 0, w, h);
+
+            // Blue dotted line: 2×2 px dots starting at (0, 1), 2px gaps, spanning full width
+            sCtx.fillStyle = '#333333';
+            for (let x = 0; x < w; x += 4) {   // step = dot width (2) + gap (2)
+                sCtx.fillRect(x, 1, 2, 2);
+            }
+            for (let x = 2; x < w; x += 4) {   // step = dot width (2) + gap (2)
+                sCtx.fillRect(x, 5, 2, 2);
+            }
+            for (let x = 0; x < w; x += 4) {   // step = dot width (2) + gap (2)
+                sCtx.fillRect(x, 9, 2, 2);
+            }
+            for (let x = 2; x < w; x += 4) {   // step = dot width (2) + gap (2)
+                sCtx.fillRect(x, 13, 2, 2);
+            }
+            for (let x = 0; x < w; x += 4) {   // step = dot width (2) + gap (2)
+                sCtx.fillRect(x, 17, 2, 2);
+            }
+
+            // White triangle blip (pointing down like a playhead)
+            const triH  = 20;
+            const triW  = 20;
+            sCtx.fillStyle = '#ffffff';
+            sCtx.beginPath();
+            sCtx.moveTo(x,          0);          // top centre
+            sCtx.lineTo(x - triW/2, 0);          // top left
+            sCtx.lineTo(x,          0 + triH);   // bottom point
+            sCtx.lineTo(x + triW/2, 0);          // top right
+            sCtx.closePath();
+            sCtx.fill();
+            // Flatten the bottom by 2px with a 2x2 square
+            sCtx.fillRect(x - 1, triH - 2, 2, 2);
+        }
+
+        function updatePlayhead() {
+            const x = getPlayheadX();
+
+            // Draw white line on the transparent overlay canvas
+            pCtx.clearRect(0, 0, playheadCanvas.width, playheadCanvas.height);
+            pCtx.fillStyle = '#ffffff';
+            pCtx.fillRect(Math.round(x) - 1, 0, 2, playheadCanvas.height);
+
+            drawSlider();
+        }
+
+        // Runs every animation frame while audio is playing or when seeking
+        function animationLoop() {
+            updatePlayhead();
+            requestAnimationFrame(animationLoop);
+        }
+
+        // ── Slider interaction ──────────────────────────────────────────────────
+        function seekToX(x) {
+            if (!duration) return;
+            const clamped = Math.max(0, Math.min(x, sliderCanvas.width));
+            const t = (clamped / sliderCanvas.width) * duration;
+            audio.currentTime = t;
+            updatePlayhead();
+        }
+
+        sliderCanvas.addEventListener('mousedown', e => {
+            isDraggingSlider = true;
+            seekToX(e.offsetX);
+        });
+
+        window.addEventListener('mousemove', e => {
+            if (!isDraggingSlider) return;
+            const rect = sliderCanvas.getBoundingClientRect();
+            seekToX(e.clientX - rect.left);
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDraggingSlider = false;
+        });
+
+        // Touch support for slider
+        sliderCanvas.addEventListener('touchstart', e => {
+            isDraggingSlider = true;
+            const rect = sliderCanvas.getBoundingClientRect();
+            seekToX(e.touches[0].clientX - rect.left);
+        }, { passive: true });
+
+        window.addEventListener('touchmove', e => {
+            if (!isDraggingSlider) return;
+            const rect = sliderCanvas.getBoundingClientRect();
+            seekToX(e.touches[0].clientX - rect.left);
+        }, { passive: true });
+
+        window.addEventListener('touchend', () => {
+            isDraggingSlider = false;
+        });
+
+        // ── Waveform ────────────────────────────────────────────────────────────
+        function redrawChops() {
+            chopsContainer.innerHTML = '';
+            timestamps.forEach(ts => {
+                const perc = (ts / duration) * 100;
+                const line = document.createElement('div');
+                line.className = 'chop-line';
+                line.style.left = `${perc}%`;
+                chopsContainer.appendChild(line);
+            });
+        }
+
+        function drawWaveform(audioBuffer) {
+            const w       = waveCanvas.width;
+            const h       = waveCanvas.height;
+            const centerY = h / 2;
+            const halfH   = h / 2;
+
+            ctx.fillStyle = '#000000';  // background color, was B64E84
+            ctx.fillRect(0, 0, w, h);
+
+            ctx.strokeStyle = '#696969';  // foreground color, was 24101A
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(0, centerY);
+            ctx.lineTo(w, centerY);
+            ctx.stroke();
+
+            const data           = audioBuffer.getChannelData(0);
+            const samplesPerPixel = Math.max(1, Math.floor(data.length / w));
+
+            ctx.strokeStyle = '#696969';  // foreground color, was 24101A
+            ctx.lineWidth   = 1.5;
+            ctx.beginPath();
+
+            for (let x = 0; x < w; x++) {
+                let minVal = 0, maxVal = 0;
+                const start = Math.floor(x * samplesPerPixel);
+                for (let i = 0; i < samplesPerPixel && (start + i) < data.length; i++) {
+                    const val = data[start + i];
+                    if (val < minVal) minVal = val;
+                    if (val > maxVal) maxVal = val;
+                }
+                ctx.moveTo(x, centerY - (maxVal * halfH));
+                ctx.lineTo(x, centerY - (minVal * halfH));
+            }
+            ctx.stroke();
+        }
+
+        function resizeCanvas() {
+            const timeline = document.getElementById('timeline');
+
+            sliderCanvas.width  = Math.floor(timeline.clientWidth);
+            sliderCanvas.height = 20;
+
+            waveCanvas.width  = Math.floor(timeline.clientWidth);
+            waveCanvas.height = Math.floor(timeline.clientHeight) - 20;
+
+            playheadCanvas.width  = waveCanvas.width;
+            playheadCanvas.height = waveCanvas.height;
+
+            // Keep the isolation and hover canvases in sync with the waveform size
+            isolationCanvas.width  = waveCanvas.width;
+            isolationCanvas.height = waveCanvas.height;
+            hoverCanvas.width      = waveCanvas.width;
+            hoverCanvas.height     = waveCanvas.height;
+
+            if (audioBufferCache) {
+                drawWaveform(audioBufferCache);
+            } else {
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, waveCanvas.width, waveCanvas.height);
+            }
+
+            updatePlayhead();
+            redrawChops();
+            // Redraw isolation overlay at the new size (hover clears naturally on resize)
+            drawIsolationOverlay();
+        }
+
+        // ── Project management ──────────────────────────────────────────────────
+        function resetProject() {
+            timestamps       = [];
+            mp3ArrayBuffer   = null;
+            audioBufferCache = null;
+            duration         = 0;
+            currentFileName  = '';
+            chopsContainer.innerHTML = '';
+
+            audio.pause();
+            audio.src = '';
+            if (objectURL) { URL.revokeObjectURL(objectURL); objectURL = null; }
+
+            document.getElementById('playPause').querySelector('use').setAttribute('href', '#playIcon');
+
+            if (waveCanvas.width > 0 && waveCanvas.height > 0) {
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, waveCanvas.width, waveCanvas.height);
+            }
+            updatePlayhead();
+        }
+
+        async function loadMP3(file) {
+            resetProject();
+            if (!file) return;
+
+            currentFileName = file.name;
+
+            try {
+                // ── Web Audio path (waveform) ──
+                const arrayBuffer = await file.arrayBuffer();
+                mp3ArrayBuffer    = arrayBuffer;
+
+                if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+                const audioBuffer = await audioContext.decodeAudioData(arrayBuffer.slice(0));
+                duration          = audioBuffer.duration;
+                audioBufferCache  = audioBuffer;
+
+                resizeCanvas();
+
+                // ── HTML Audio path (playback) ──
+                objectURL  = URL.createObjectURL(file);
+                audio.src  = objectURL;
+                audio.playbackRate = speed;
+                audio.loop = loopEnabled;
+                await audio.load();
+
+            } catch (e) {
+                console.error(e);
+                alert('Invalid MP3 file');
+            }
+        }
+
+        // ── Save / Load .drl ──────────────────────────────────────────────────
+        function saveDrill() {
+            if (!mp3ArrayBuffer) { alert('No project loaded.'); return; }
+
+            const base64 = btoa(
+                new Uint8Array(mp3ArrayBuffer).reduce((d, b) => d + String.fromCharCode(b), '')
+            );
+
+            const payload = JSON.stringify({
+                version:      1,
+                fileName:     document.getElementById('titleBox').value,
+                loop:         loopEnabled,
+                speed:        speed,
+                mode:         currentMode,
+                timestamps:   timestamps,
+                mp3Base64:    base64
+            });
+
+            const blob = new Blob([payload], { type: 'application/octet-stream' });
+            const a    = document.createElement('a');
+            a.href     = URL.createObjectURL(blob);
+//            a.download = (currentFileName.replace(/\.mp3$/i, '') || 'project') + '.drl';
+            a.download = (document.getElementById('titleBox').value.trim() || 'project') + '.drl';
+            a.click();
+        }
+
+        async function loadDrill(file) {
+            if (!file) return;
+            try {
+                const text    = await file.text();
+                const data    = JSON.parse(text);
+
+                resetProject();
+
+                loopEnabled     = data.loop    ?? false;
+                speed           = data.speed   ?? 1.0;
+                currentMode     = data.mode    ?? 'pointer';
+                timestamps      = data.timestamps ?? [];
+                currentFileName = data.fileName  ?? '';
+
+                document.getElementById('titleBox').value = data.fileName ?? 'Untitled drill';
+                document.getElementById('loop').querySelector('use').setAttribute('href', loopEnabled ? '#loopOnIcon' : '#loopOffIcon');
+                document.getElementById('speedLabel').textContent  = speed.toFixed(2);
+                setMode(currentMode);
+
+                // Decode base64 → ArrayBuffer
+                const binary = atob(data.mp3Base64);
+                const bytes  = new Uint8Array(binary.length);
+                for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+                mp3ArrayBuffer = bytes.buffer;
+
+                if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const audioBuffer = await audioContext.decodeAudioData(mp3ArrayBuffer.slice(0));
+                duration         = audioBuffer.duration;
+                audioBufferCache = audioBuffer;
+
+                resizeCanvas();
+
+                const blob = new Blob([bytes], { type: 'audio/mpeg' });
+                objectURL        = URL.createObjectURL(blob);
+                audio.src        = objectURL;
+                // audio.playbackRate = speed;
+                audio.loop       = loopEnabled;
+                await audio.load();
+                audio.playbackRate = speed;
+
+            } catch (e) {
+                console.error(e);
+                alert('Failed to load .drill file.');
+            }
+        }
+
+        // ── Isolation helpers ────────────────────────────────────────────────────
+
+        // Returns an array of [startTime, endTime] pairs for every segment between
+        // chop lines (including the implicit 0 and duration boundaries).
+        function getSegments() {
+            if (!duration) return [];
+            const bounds = [0, ...timestamps, duration];
+            const segs = [];
+            for (let i = 0; i < bounds.length - 1; i++) {
+                segs.push([bounds[i], bounds[i + 1]]);
+            }
+            return segs;
+        }
+
+        // Returns the segment index (into getSegments()) that contains the given
+        // x pixel position on the waveform canvas, or -1 if duration is 0.
+        function segmentIndexAtX(x) {
+            if (!duration) return -1;
+            const t = (x / waveCanvas.width) * duration;
+            const segs = getSegments();
+            for (let i = 0; i < segs.length; i++) {
+                if (t >= segs[i][0] && t <= segs[i][1]) return i;
+            }
+            return segs.length - 1; // clamp to last segment
+        }
+
+        // Draws the isolation overlay: black 50%-opaque rects over every segment
+        // except the isolated one. Clears completely when isolatedSegmentIndex is null.
+        function drawIsolationOverlay() {
+            iCtx.clearRect(0, 0, isolationCanvas.width, isolationCanvas.height);
+            if (isolatedSegmentIndex === null) return;
+
+            const segs = getSegments();
+            iCtx.fillStyle = 'rgba(0, 0, 0, 1.0)';
+            segs.forEach(([start, end], i) => {
+                if (i === isolatedSegmentIndex) return; // leave the active segment clear
+                const x1 = (start / duration) * isolationCanvas.width;
+                const x2 = (end   / duration) * isolationCanvas.width;
+                iCtx.fillRect(x1, 0, x2 - x1, isolationCanvas.height);
+            });
+        }
+
+        // Draws a white 50%-opaque hover highlight over the segment at the given
+        // index, or clears if idx is null.
+        function drawHoverOverlay(idx) {
+            hCtx.clearRect(0, 0, hoverCanvas.width, hoverCanvas.height);
+            if (idx === null || !duration) return;
+
+            const segs = getSegments();
+            if (idx < 0 || idx >= segs.length) return;
+            const [start, end] = segs[idx];
+            const x1 = (start / duration) * hoverCanvas.width;
+            const x2 = (end   / duration) * hoverCanvas.width;
+            hCtx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+            hCtx.fillRect(x1, 0, x2 - x1, hoverCanvas.height);
+        }
+
+        // Applies the isolation context to the audio element: seeks to the segment
+        // start and installs the boundary-enforcement listener.
+        // IMPORTANT: native audio.loop must be OFF during isolation — if it were on,
+        // the browser would jump to absolute 0 at track end before our timeupdate
+        // handler can redirect to the segment start. We handle looping ourselves.
+        function applyIsolationToAudio() {
+            if (isolatedSegmentIndex === null) {
+                // Restore native loop behaviour and remove our boundary listener.
+                audio.loop = loopEnabled;
+                audio.removeEventListener('timeupdate', _isolationTimeUpdate);
+                return;
+            }
+            const segs = getSegments();
+            const [start] = segs[isolatedSegmentIndex];
+            // Disable native looping — _isolationTimeUpdate handles it instead.
+            audio.loop = false;
+            audio.currentTime = start;
+            // Remove any stale listener before adding a fresh one.
+            audio.removeEventListener('timeupdate', _isolationTimeUpdate);
+            audio.addEventListener('timeupdate', _isolationTimeUpdate);
+        }
+
+        // Listener that loops/stops playback at the segment end boundary.
+        function _isolationTimeUpdate() {
+            if (isolatedSegmentIndex === null) return;
+            const segs = getSegments();
+            const [start, end] = segs[isolatedSegmentIndex];
+            if (audio.currentTime >= end) {
+                if (loopEnabled) {
+                    audio.currentTime = start;
+                } else {
+                    audio.pause();
+                    audio.currentTime = start;
+                    document.getElementById('playPause').querySelector('use').setAttribute('href', '#playIcon');
+                }
+            }
+        }
+
+        // ── Scissors / chops ────────────────────────────────────────────────────
+        function handleClick(e) {
+            // ── Scissors mode: place a chop line ──
+            if (currentMode === 'scissors') {
+                if (duration === 0) return;
+                const perc = e.offsetX / waveCanvas.width;
+                const ts   = perc * duration;
+                timestamps.push(ts);
+                timestamps.sort((a, b) => a - b);
+                redrawChops();
+                return;
+            }
+
+            // ── Pointer mode: toggle isolation context ──
+            if (currentMode === 'pointer') {
+                if (duration === 0) return;
+                const clickedIndex = segmentIndexAtX(e.offsetX);
+
+                if (isolatedSegmentIndex !== null) {
+                    // Any click in pointer mode while isolated → clear isolation
+                    isolatedSegmentIndex = null;
+                    applyIsolationToAudio(); // restores audio.loop and removes listener
+                    drawIsolationOverlay();
+                } else {
+                    // Enter isolation for the clicked segment
+                    isolatedSegmentIndex = clickedIndex;
+                    drawIsolationOverlay();
+                    applyIsolationToAudio();
+                }
+            }
+        }
+
+        function setMode(mode) {
+            currentMode  = mode;
+            waveCanvas.style.cursor = mode === 'scissors' ? 'crosshair' : 'default';
+            document.getElementById('pointerButton').classList.toggle('moded',  mode === 'pointer');
+            document.getElementById('scissorsButton').classList.toggle('moded', mode === 'scissors');
+
+            // Switching to scissors always clears any active isolation context
+            if (mode === 'scissors' && isolatedSegmentIndex !== null) {
+                isolatedSegmentIndex = null;
+                applyIsolationToAudio(); // restores audio.loop and removes listener
+                drawIsolationOverlay();
+            }
+        }
+
+        function resetChops() {
+            if (timestamps.length === 0) return;
+            timestamps = [];
+            // Resetting chops invalidates any active isolation context
+            isolatedSegmentIndex = null;
+            applyIsolationToAudio(); // restores audio.loop and removes listener
+            drawIsolationOverlay();
+            redrawChops();
+        }
+
+        // ── Audio events ────────────────────────────────────────────────────────
+        audio.addEventListener('ended', () => {
+            if (!loopEnabled) {
+                document.getElementById('playPause').querySelector('use').setAttribute('href', '#playIcon');
+            }
+        });
+
+        // ── Init ────────────────────────────────────────────────────────────────
+        function init() {
+            document.getElementById('mp3-input').addEventListener('change', e => {
+                if (e.target.files[0]) loadMP3(e.target.files[0]);
+            });
+            document.getElementById('drill-input').addEventListener('change', e => {
+                if (e.target.files[0]) loadDrill(e.target.files[0]);
+            });
+
+            waveCanvas.addEventListener('click', handleClick);
+
+            // ── Isolation hover highlight ──
+            // Show a white 50%-opaque rectangle over the hovered segment in pointer mode.
+            waveCanvas.addEventListener('mousemove', e => {
+                if (currentMode !== 'pointer' || !duration) {
+                    drawHoverOverlay(null);
+                    return;
+                }
+                drawHoverOverlay(segmentIndexAtX(e.offsetX));
+            });
+            waveCanvas.addEventListener('mouseleave', () => drawHoverOverlay(null));
+
+            window.addEventListener('resize', resizeCanvas);
+
+            document.addEventListener('keydown', e => {
+                if (e.code === 'Space' && document.activeElement.id !== 'titleBox') {
+                    e.preventDefault();
+                    togglePlayStop();
+                }
+            });
+
+            setMode('pointer');
+            resizeCanvas();
+
+            // Kick off the animation loop
+            requestAnimationFrame(animationLoop);
+        }
+
+
+
+        window.onload = init;
+    </script>
+
+<!-- SVG's: -->
+
+<!-- loop-off icon: -->
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+
+    <symbol id="playIcon" viewBox="-10 -10 44 44" fill="none">
+        <path d="M5 5C4.9999 4.64809 5.09265 4.30238 5.26888 3.99779C5.44512 3.69319 5.69861 3.44049 6.00375 3.26519C6.30889 3.0899 6.65488 2.99822 7.00679 2.99942C7.3587 3.00061 7.70406 3.09464 8.008 3.272L20.005 10.27C20.3078 10.4457 20.5591 10.6977 20.7339 11.001C20.9088 11.3043 21.0009 11.6481 21.0012 11.9981C21.0015 12.3482 20.91 12.6922 20.7357 12.9957C20.5614 13.2993 20.3105 13.5518 20.008 13.728L8.008 20.728C7.70406 20.9054 7.3587 20.9994 7.00679 21.0006C6.65488 21.0018 6.30889 20.9101 6.00375 20.7348C5.69861 20.5595 5.44512 20.3068 5.26888 20.0022C5.09265 19.6976 4.9999 19.3519 5 19V5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="-9" y="-9" width="42" height="42" stroke="white" stroke-width="2"/>
+    </symbol>
+
+    <symbol id="pauseIcon" viewBox="-10 -10 44 44" fill="none">
+        <path d="M18 3H15C14.4477 3 14 3.44772 14 4V20C14 20.5523 14.4477 21 15 21H18C18.5523 21 19 20.5523 19 20V4C19 3.44772 18.5523 3 18 3Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M9 3H6C5.44772 3 5 3.44772 5 4V20C5 20.5523 5.44772 21 6 21H9C9.55228 21 10 20.5523 10 20V4C10 3.44772 9.55228 3 9 3Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="-9" y="-9" width="42" height="42" stroke="white" stroke-width="2"/>
+    </symbol>
+
+    <symbol id="stopIcon" viewBox="-10 -10 44 44" fill="none">
+        <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="-9" y="-9" width="42" height="42" stroke="white" stroke-width="2"/>
+    </symbol>
+
+    <symbol id="loopOffIcon" viewBox="-10 -10 44 44" fill="none">
+        <path d="M17 2L21 6L17 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3 11V10C3 8.93913 3.42143 7.92172 4.17157 7.17157C4.92172 6.42143 5.93913 6 7 6H21M7 22L3 18L7 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M21 13V14C21 15.0609 20.5786 16.0783 19.8284 16.8284C19.0783 17.5786 18.0609 18 17 18H3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="-9" y="-9" width="42" height="42" stroke="white" stroke-width="2"/>
+    </symbol>
+
+    <symbol id="loopOnIcon" viewBox="-10 -10 44 44" fill="none">
+        <path d="M17 2L21 6L17 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3 11V10C3 8.93913 3.42143 7.92172 4.17157 7.17157C4.92172 6.42143 5.93913 6 7 6H21M7 22L3 18L7 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M21 13V14C21 15.0609 20.5786 16.0783 19.8284 16.8284C19.0783 17.5786 18.0609 18 17 18H3M11 10H12V14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="-9" y="-9" width="42" height="42" stroke="white" stroke-width="2"/>
+    </symbol>
+
+    <symbol id="pointerIcon" viewBox="-10 -10 44 44" fill="none">
+        <path d="M12.586 12.586L19 19M3.68799 3.037C3.59693 2.99863 3.4965 2.98827 3.39952 3.00725C3.30255 3.02623 3.21343 3.07369 3.14355 3.14356C3.07368 3.21344 3.02622 3.30255 3.00724 3.39953C2.98826 3.49651 2.99862 3.59694 3.03699 3.688L9.53699 19.687C9.57701 19.7838 9.64635 19.8656 9.73527 19.921C9.82418 19.9763 9.92821 20.0024 10.0327 19.9955C10.1372 19.9887 10.237 19.9493 10.3179 19.8828C10.3989 19.8163 10.4569 19.7262 10.484 19.625L12.053 13.542C12.1365 13.1869 12.3156 12.8613 12.5708 12.6006C12.826 12.3399 13.1477 12.154 13.501 12.063L19.625 10.484C19.7267 10.4576 19.8175 10.3998 19.8845 10.3189C19.9515 10.238 19.9913 10.1381 19.9982 10.0332C20.0052 9.92842 19.979 9.82406 19.9233 9.73499C19.8676 9.64591 19.7853 9.57664 19.688 9.537L3.68799 3.037Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="-9" y="-9" width="42" height="42" stroke="white" stroke-width="2"/>
+    </symbol>
+
+    <symbol id="scissorsIcon" viewBox="-10 -10 44 44" fill="none">
+        <path d="M6 9C7.65685 9 9 7.65685 9 6C9 4.34315 7.65685 3 6 3C4.34315 3 3 4.34315 3 6C3 7.65685 4.34315 9 6 9Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8.12 8.12L12 12M20 4L8.12 15.88" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6 21C7.65685 21 9 19.6569 9 18C9 16.3431 7.65685 15 6 15C4.34315 15 3 16.3431 3 18C3 19.6569 4.34315 21 6 21Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M14.8 14.8L20 20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="-9" y="-9" width="42" height="42" stroke="white" stroke-width="2"/>
+    </symbol>
+
+    <symbol id="resetIcon" viewBox="-10 -10 44 44" fill="none">
+        <path d="M3 7V13H9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M21 17C21 14.6131 20.0518 12.3239 18.364 10.636C16.6761 8.94821 14.3869 8 12 8C9.78512 8.00226 7.64885 8.82116 6 10.3L3 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="-9" y="-9" width="42" height="42" stroke="white" stroke-width="2"/>
+    </symbol>
+
+    <symbol id="arrowLeftIcon" viewBox="-10 -10 44 44" fill="none">
+        <path d="M15 18L9 12L15 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="-9" y="-9" width="42" height="42" stroke="white" stroke-width="2"/>
+    </symbol>
+
+    <symbol id="arrowRightIcon" viewBox="-10 -10 44 44" fill="none">
+        <path d="M9 18L15 12L9 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="-9" y="-9" width="42" height="42" stroke="white" stroke-width="2"/>
+    </symbol>
+
+    <symbol id="newIcon" viewBox="-10 -10 44 44" fill="none">
+        <path d="M11.65 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8C20.0008 7.68311 19.9388 7.3692 19.8176 7.07639C19.6964 6.78358 19.5185 6.51767 19.294 6.294L15.706 2.706C15.4823 2.48152 15.2164 2.30356 14.9236 2.18238C14.6308 2.06121 14.3169 1.99922 14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V14.35" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M14 2V7C14 7.26522 14.1054 7.51957 14.2929 7.70711C14.4804 7.89464 14.7348 8 15 8H20M8 20V13L11 14.474" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6 22C7.10457 22 8 21.1046 8 20C8 18.8954 7.10457 18 6 18C4.89543 18 4 18.8954 4 20C4 21.1046 4.89543 22 6 22Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="-9" y="-9" width="42" height="42" stroke="white" stroke-width="2"/>
+    </symbol>
+
+    <symbol id="loadIcon" viewBox="-10 -10 44 44" fill="none">
+        <path d="M12 3V15M12 3L17 8M12 3L7 8M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="-9" y="-9" width="42" height="42" stroke="white" stroke-width="2"/>
+    </symbol>
+
+    <symbol id="saveIcon" viewBox="-10 -10 44 44" fill="none">
+        <path d="M12 15V3M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M7 10L12 15L17 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="-9" y="-9" width="42" height="42" stroke="white" stroke-width="2"/>
+    </symbol>
+
+</svg> 
+
+</body>
+</html>
