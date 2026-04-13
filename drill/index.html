@@ -53,6 +53,7 @@
             width: 400px;
             height: 40px;
             background-color: #000000;
+            color: white;
             outline-color: #ffffff;
             border: none;
         }
@@ -217,6 +218,7 @@
     </div>
 
     <div id="timeline">
+        <div id="upload-hint" onclick="document.getElementById('mp3-input').click()" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:16px; color:#ffffff; cursor:pointer; z-index:100;">Upload a .mp3 file</div>
         <canvas id="slider-canvas"></canvas>
         <canvas id="waveform"></canvas>
         <canvas id="playhead-canvas"></canvas>
@@ -507,7 +509,7 @@
         }
 
         // ── Project management ──────────────────────────────────────────────────
-        function resetProject() {
+        /*function resetProject() {
             timestamps       = [];
             mp3ArrayBuffer   = null;
             audioBufferCache = null;
@@ -520,6 +522,40 @@
             if (objectURL) { URL.revokeObjectURL(objectURL); objectURL = null; }
 
             document.getElementById('playPause').querySelector('use').setAttribute('href', '#playIcon');
+
+            if (waveCanvas.width > 0 && waveCanvas.height > 0) {
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, waveCanvas.width, waveCanvas.height);
+            }
+            updatePlayhead();
+        }*/
+
+        function resetProject() {
+            timestamps       = [];
+            mp3ArrayBuffer   = null;
+            audioBufferCache = null;
+            duration         = 0;
+            currentFileName  = '';
+            speed            = 1.0;
+            loopEnabled      = false;
+            isolatedSegmentIndex = null;
+            chopsContainer.innerHTML = '';
+
+            audio.pause();
+            audio.src        = '';
+            audio.loop       = false;
+            audio.playbackRate = 1.0;
+            audio.removeEventListener('timeupdate', _isolationTimeUpdate);
+            if (objectURL) { URL.revokeObjectURL(objectURL); objectURL = null; }
+
+            document.getElementById('titleBox').value = 'Untitled drill';
+            document.getElementById('speedLabel').textContent = '1.00';
+            document.getElementById('playPause').querySelector('use').setAttribute('href', '#playIcon');
+            document.getElementById('loop').querySelector('use').setAttribute('href', '#loopOffIcon');
+
+            drawIsolationOverlay();
+            drawHoverOverlay(null);
+            document.getElementById('upload-hint').style.display = 'block';
 
             if (waveCanvas.width > 0 && waveCanvas.height > 0) {
                 ctx.fillStyle = '#000000';
@@ -546,6 +582,7 @@
                 audioBufferCache  = audioBuffer;
 
                 resizeCanvas();
+                document.getElementById('upload-hint').style.display = 'none';
 
                 // ── HTML Audio path (playback) ──
                 objectURL  = URL.createObjectURL(file);
@@ -617,6 +654,7 @@
                 audioBufferCache = audioBuffer;
 
                 resizeCanvas();
+                document.getElementById('upload-hint').style.display = 'none';
 
                 const blob = new Blob([bytes], { type: 'audio/mpeg' });
                 objectURL        = URL.createObjectURL(blob);
