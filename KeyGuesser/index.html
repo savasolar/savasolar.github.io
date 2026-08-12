@@ -20,26 +20,23 @@ body
 <p><b><a href="#">Download (.zip)</a></b></p>
 <h3>Under the hood</h3>
 <ul>
-  <li>Polyphonic pitch detection via a C inplementation of the MuScriptor neural net</li>
+  <li>Polyphonic pitch detection via a C implementation of the MuScriptor neural net
+	<p></p>
+    <ul>
+      <li><a target="_blank" href="https://arxiv.org/abs/2607.08168">Rouard et al., 2026</a></li>
+    </ul>
+  </li>
   <p></p>
-  <ul>
-	<li>Muscriptor citation</li>
-  </ul>
+  <li>Detected notes are used to estimate key with the Krumhansl-Schmuckler key-profile correlation method
+    <p></p>
+    <ul>
+      <li>Krumhansl, C. L. (1990). <i>Cognitive foundations of musical pitch</i>. Oxford University Press.</li>
+    </ul>
+  </li>
   <p></p>
-  <li>Detected notes are used to estimate key with the Krumhansl-Schmuckler key-profile correlation method (citation)</li>
-  <p></p>
-  <ul>
-	<li>citation</li>
-  </ul>
-  <p></p>
-  <li>Build using the JUCE framework and ONNX Runtime</li>
-  <p></p>
-  <ul>
-	<li>JUCE link, onnxruntime static builds link</li>
-  </ul>
-  <p></p>
+  <li>Built using the JUCE framework and <a target="_blank" href="https://github.com/csukuangfj/onnxruntime-libs/releases/tag/v1.25.0">static builds of ONNX Runtime</a></li>
 </ul>
-<p>This project is part of an ongoing effort on the <a href="#">CounterTune audio effect</a>, a generative delay plugin!</p>
+<p>This project is part of an ongoing effort on the <a target="_blank" href="https://countertune.com/">CounterTune audio effect</a>, a generative delay plugin!</p>
 </div>
 </body>
 </html>
