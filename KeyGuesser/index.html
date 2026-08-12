@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>KeyGuesser</title>
+<style>
+body
+{
+	background-color: lightcoral;
+	color: black;
+	font-family: arial;
+}
+</style>
+</head>
+<body>
+<div style="max-width:800px">
+<h1>KeyGuesser</h1>
+<p><i>image here...</i></p>
+<p>Highly accurate pitch and key detector designed to work with any audio.</p>
+<p>Runs as a VST3/AU audio effect plugin for Windows and MacOS.</p>
+<p><b><a href="#">Download (.zip)</a></b></p>
+<h3>Under the hood</h3>
+<ul>
+  <li>Polyphonic pitch detection via a C inplementation of the MuScriptor neural net</li>
+  <p></p>
+  <ul>
+	<li>Muscriptor citation</li>
+  </ul>
+  <p></p>
+  <li>Detected notes are used to estimate key with the Krumhansl-Schmuckler key-profile correlation method (citation)</li>
+  <p></p>
+  <ul>
+	<li>citation</li>
+  </ul>
+  <p></p>
+  <li>Build using the JUCE framework and ONNX Runtime</li>
+  <p></p>
+  <ul>
+	<li>JUCE link, onnxruntime static builds link</li>
+  </ul>
+  <p></p>
+</ul>
+<p>This project is part of an ongoing effort on the <a href="#">CounterTune audio effect</a>, a generative delay plugin!</p>
+</div>
+</body>
+</html>
