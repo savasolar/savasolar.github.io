@@ -4,21 +4,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KeyGuesser</title>
 <style>
-body
-{
-	background-color: lightcoral;
-	color: black;
-	font-family: arial;
+body {
+  background-color: lightcoral;
+  color: black;
+  font-family: arial;
+}
+
+a:link,
+a:visited {
+  color: #0000EE;
+  text-decoration: underline;
+}
+
+a:hover,
+a:active {
+  color: #0000EE;
+}
+hr {
+  border: solid black 1px;
 }
 </style>
 </head>
 <body>
-<div style="max-width:800px">
+<div>
 <h1>KeyGuesser</h1>
+<hr/>
 <img src="screenshot.png"/>
-<p><i>Highly accurate pitch and key detector designed to work with any audio.</i></p>
-<p><i>Runs as VST3/AU audio effect plugin for Windows and MacOS.</i></p>
-<p><b><a href="#">Download (.zip)</a></b></p>
+<p><i>Highly accurate pitch and key detector designed to work with any audio. Runs as VST3/AU audio effect plugin for Windows and MacOS.</i></p>
+<p><b><a href="#">Download for Windows (.msi)</a> | <a href="#">Download for MacOS (.pkg)</a></b></p>
+<br/>
+<hr/>
 <h3>Under the hood</h3>
 <ul>
   <li>
@@ -34,10 +49,12 @@ body
     </ul>
   </li>
   <li>
-    <p>Built using the JUCE framework and <a target="_blank" href="https://github.com/csukuangfj/onnxruntime-libs/releases/tag/v1.25.0">static builds of ONNX Runtime</a>.</p>
+    <p>Built using the JUCE framework and <a target="_blank" href="https://github.com/csukuangfj/onnxruntime-libs/">static builds of ONNX Runtime</a>.</p>
   </li>
 </ul>
-<p>This project is part of an ongoing effort on the <a target="_blank" href="https://countertune.com/">CounterTune audio effect</a>, a generative delay plugin!</p>
+<br/>
+<hr/>
+<p><i>This project is part of an ongoing effort on the <a target="_blank" href="https://countertune.com/">CounterTune audio effect</a>, a generative delay plugin! &copy; Sava Solar 2026<i></p>
 </div>
 </body>
 </html>
