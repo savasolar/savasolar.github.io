@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mixed Signals Audio Corp.</title>
+<style>
+body {
+  font-family: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, "Cascadia Mono", "Liberation Mono", "Courier New", monospace;
+  font-size: 16pt;
+  margin:0px;
+  background-color:cadetblue;
+}
+h1, h2, h3 {
+  margin: 0px;
+}
+button {
+  font-family: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, "Cascadia Mono", "Liberation Mono", "Courier New", monospace;
+  font-size: 16pt;
+}
+.photobooth {
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 4 / 3;
+/*  background-color: black;*/
+}
+.photobooth img, .photobooth video {
+  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.photobooth .active {
+  display: block;
+}
+.header {
+  background-color: black;
+  color: white;
+  width:100%;
+  padding: 20px;
+  box-sizing:border-box;
+  text-align:center;
+}
+.main {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.photobooth-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dot {
+  width: 12px;
+  height: 12px;
+  box-sizing: border-box;
+  border: 2px solid black;
+  border-radius: 50%;
+  background: transparent;
+}
+.dot.filled {
+  background: black;
+}
+.buyarea {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.buyarea p {
+  margin: 0;
+}
+.comingsoon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height:100px;
+}
+.comingsoon p {
+  margin: 0;
+}
+
+li {
+  padding-bottom:10px;
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="header">
+<h1>MIXED SIGNALS AUDIO CORP.</h1>
+</div>
+<div class="main">
+  <div style="box-sizing:border-box; padding-top:20px; padding-bottom:20px; text-align:center;">
+  <h2>GENERATIVE DELAY</h2>
+  </div>
+  <div class="photobooth">
+    <img class="active" src="image-01.png" alt="Generative Delay photo 1">
+    <img src="image-02.png" alt="Generative Delay photo 2">
+    <img src="image-03.png" alt="Generative Delay photo 3">
+    <video src="http://savasolar.github.io/msac-resources/video-01.mp4" controls preload="metadata"></video>
+  </div>
+  <div class="photobooth-controls">
+    <button onclick="go(-1)" style="width:40px; height:40px; padding:0; display:flex; align-items:center; justify-content:center;">
+	  <svg width="16" height="16" viewBox="0 0 16 16"><polygon points="12,2 3,8 12,14" fill="currentColor"></polygon></svg>
+	</button> 
+	<span class="dots" id="dots"></span> 
+	<button onclick="go(1)" style="width:40px; height:40px; padding:0; display:flex; align-items:center; justify-content:center;">
+	  <svg width="16" height="16" viewBox="0 0 16 16"><polygon points="4,2 13,8 4,14" fill="currentColor"></polygon></svg>
+	</button>
+  </div>  
+  <div class="buyarea" style="display:none">
+    <button style="height:60px; padding-left:80px; padding-right:80px;"><h3>ORDER NOW</h3></button>
+  </div>
+  <div class="comingsoon">
+    <h3>COMING SOON</h3>
+  </div>
+  <details style="cursor:default;">
+    <summary>More info</summary>
+    <p>The Generative Delay pedal listens to the notes you play, figures out harmonies that sound good, and plays new notes that fit.</p>
+    <ul>
+      <li><i>Chaos</i> controls the randomness of generated harmonies</li>
+      <li><i>Bloom</i> sets the length of each new note</li>
+      <li><i>Rate</i> controls the speed of new notes</li>
+      <li><i>Mix</i> controls the wet/dry volume</li>
+    </ul>
+	<p>This pedal is an effort to push the boundaries of musical expression, and unlocks a sonic palette that was previously only achievable through hours of manual audio production.</p>
+	<p>As such, it possesses a rare combination of qualities: it is unique enough to sound unlike any other pedal, useful enough to be applicable to any style of guitar playing, and artistic enough to change the way we hear music.</p>
+	<p>Try it out!</p>
+	<br/><br/><br/>
+  </details>
+</div>
+<script>
+var slides = document.querySelectorAll(".photobooth > *");
+var dotsEl = document.getElementById("dots");
+var current = 0;
+
+for (var i = 0; i < slides.length; i++) {
+  var d = document.createElement("span");
+  d.className = "dot";
+  dotsEl.appendChild(d);
+}
+var dots = dotsEl.children;
+dots[0].classList.add("filled");
+
+function go(step) {
+  slides[current].classList.remove("active");
+  dots[current].classList.remove("filled");
+  var video = slides[current].tagName === "VIDEO" ? slides[current] : null;
+  if (video) video.pause();
+  current = (current + step + slides.length) % slides.length;
+  slides[current].classList.add("active");
+  dots[current].classList.add("filled");
+}
+</script>
+</body>
+</html>
+<!--
+Questions for guitarists re: generative delay
+
+ - The current version of this pedal takes ~25 seconds to power on. Do you find this acceptable? Yes/No
+
+ - If you saw this pedal on a shelf at Long & McQuade, what price would you expect it to be? (rough estimates are okay) __
+
+
+-->
